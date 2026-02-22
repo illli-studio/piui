@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
-import { TEMPLATES, type Template } from '../data/templates';
+import type { Template } from '../data/templates';
+import { TEMPLATES } from '../data/templates';
 
 interface SidebarProps {
   currentSize: { width: number; height: number };
