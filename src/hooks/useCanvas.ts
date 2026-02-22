@@ -70,6 +70,19 @@ export function useCanvas() {
     return newElement.id;
   }, [pushHistory]);
 
+  const addElements = useCallback((elements: Omit<CanvasElement, 'id'>[]) => {
+    const newElements = elements.map((el) => ({ ...el, id: uuidv4() }));
+    setState((prev: ProjectState) => {
+      const allElements = [...prev.elements, ...newElements];
+      pushHistory(allElements);
+      return {
+        ...prev,
+        elements: allElements,
+        selectedIds: newElements.map(el => el.id),
+      };
+    });
+  }, [pushHistory]);
+
   const updateElement = useCallback((id: string, updates: Partial<CanvasElement>) => {
     setState((prev: ProjectState) => {
       const newElements = prev.elements.map((el: CanvasElement) => 
@@ -109,12 +122,36 @@ export function useCanvas() {
     setState((prev: ProjectState) => ({ ...prev, zoom: Math.max(0.1, Math.min(4, zoom)) }));
   }, []);
 
+  const clearCanvas = useCallback(() => {
+    setState((prev: ProjectState) => {
+      pushHistory([]);
+      return {
+        ...prev,
+        elements: [],
+        selectedIds: [],
+      };
+    });
+  }, [pushHistory]);
+
+  const loadTemplate = useCallback((elements: Omit<CanvasElement, 'id'>[]) => {
+    const newElements = elements.map((el) => ({ ...el, id: uuidv4() }));
+    setState((prev: ProjectState) => {
+      pushHistory(newElements);
+      return {
+        ...prev,
+        elements: newElements,
+        selectedIds: [],
+      };
+    });
+  }, [pushHistory]);
+
   return {
     state,
     tool,
     setTool,
     setCanvasSize,
     addElement,
+    addElements,
     updateElement,
     deleteElements,
     selectElement,
@@ -122,5 +159,7 @@ export function useCanvas() {
     setZoom,
     undo,
     redo,
+    clearCanvas,
+    loadTemplate,
   };
 }

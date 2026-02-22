@@ -3,9 +3,10 @@ import type { CanvasElement } from '../types';
 interface PropertiesPanelProps {
   selectedElements: CanvasElement[];
   onUpdate: (id: string, updates: Partial<CanvasElement>) => void;
+  onDelete: (ids: string[]) => void;
 }
 
-export function PropertiesPanel({ selectedElements, onUpdate }: PropertiesPanelProps) {
+export function PropertiesPanel({ selectedElements, onUpdate, onDelete }: PropertiesPanelProps) {
   if (selectedElements.length === 0) {
     return (
       <div className="properties-panel">
@@ -23,7 +24,21 @@ export function PropertiesPanel({ selectedElements, onUpdate }: PropertiesPanelP
 
   return (
     <div className="properties-panel">
-      <div className="sidebar-section">
+      <div className="sidebar-section" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="sidebar-section-title" style={{ marginBottom: 0 }}>Selected: {element.type}</div>
+        <button 
+          className="btn btn-ghost" 
+          style={{ color: 'var(--error)', padding: '4px 8px' }}
+          onClick={() => onDelete([element.id])}
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <polyline points="3,6 5,6 21,6" />
+            <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2v2" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="properties-section">
         <div className="sidebar-section-title">Position & Size</div>
         <div className="properties-row">
           <label className="properties-label">X</label>
@@ -85,11 +100,10 @@ export function PropertiesPanel({ selectedElements, onUpdate }: PropertiesPanelP
       {element.type === 'text' && (
         <div className="properties-section">
           <div className="sidebar-section-title">Text</div>
-          <div className="properties-row">
-            <label className="properties-label">Text</label>
-            <input
-              type="text"
+          <div className="properties-row" style={{ flexDirection: 'column', alignItems: 'stretch' }}>
+            <textarea
               className="properties-input"
+              style={{ minHeight: 60, resize: 'vertical' }}
               value={element.text || ''}
               onChange={e => onUpdate(element.id, { text: e.target.value })}
             />

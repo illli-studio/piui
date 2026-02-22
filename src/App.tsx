@@ -4,7 +4,8 @@ import { Sidebar } from './components/Sidebar';
 import { Canvas } from './components/Canvas';
 import { PropertiesPanel } from './components/PropertiesPanel';
 import { useCanvas } from './hooks/useCanvas';
-import type { CanvasSize, CanvasElement } from './types';
+import type { CanvasElement } from './types';
+import type { Template } from './data/templates';
 
 function App() {
   const {
@@ -20,11 +21,18 @@ function App() {
     setZoom,
     undo,
     redo,
+    clearCanvas,
+    loadTemplate,
   } = useCanvas();
 
-  const handleSizeSelect = useCallback((size: CanvasSize) => {
+  const handleSizeSelect = useCallback((size: { width: number; height: number }) => {
     setCanvasSize(size.width, size.height);
   }, [setCanvasSize]);
+
+  const handleTemplateSelect = useCallback((template: Template) => {
+    setCanvasSize(template.canvasWidth, template.canvasHeight);
+    loadTemplate(template.elements);
+  }, [setCanvasSize, loadTemplate]);
 
   const handleImageUpload = useCallback((file: File) => {
     const reader = new FileReader();
@@ -32,7 +40,6 @@ function App() {
       const src = e.target?.result as string;
       const img = new Image();
       img.onload = () => {
-        // Scale image to fit within 400x400 while maintaining aspect ratio
         let width = img.width;
         let height = img.height;
         const maxSize = 400;
@@ -66,11 +73,9 @@ function App() {
     const ctx = canvas.getContext('2d');
     
     if (ctx) {
-      // White background
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
-      // Draw elements
       state.elements.forEach((element) => {
         ctx.save();
         ctx.globalAlpha = element.opacity;
@@ -119,7 +124,6 @@ function App() {
         ctx.restore();
       });
       
-      // Download
       const link = document.createElement('a');
       link.download = 'piui-cover.png';
       link.href = canvas.toDataURL('image/png');
@@ -127,7 +131,6 @@ function App() {
     }
   }, [state]);
 
-  // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'z' && (e.ctrlKey || e.metaKey) && !e.shiftKey) {
@@ -163,6 +166,8 @@ function App() {
           onToolSelect={(t) => setTool(t as typeof tool)}
           currentTool={tool}
           onImageUpload={handleImageUpload}
+          onTemplateSelect={handleTemplateSelect}
+          onClearCanvas={clearCanvas}
         />
         <Canvas
           width={state.canvasWidth}
@@ -179,6 +184,7 @@ function App() {
         <PropertiesPanel
           selectedElements={selectedElements}
           onUpdate={updateElement}
+          onDelete={deleteElements}
         />
       </main>
       <div className="zoom-controls">
