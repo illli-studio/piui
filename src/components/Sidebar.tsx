@@ -1,5 +1,4 @@
 import { useState, useRef } from 'react';
-import type { Template } from '../data/templates';
 import { TEMPLATES } from '../data/templates';
 
 interface SidebarProps {
@@ -8,7 +7,7 @@ interface SidebarProps {
   onToolSelect: (tool: string) => void;
   currentTool: string;
   onImageUpload: (file: File) => void;
-  onTemplateSelect: (template: Template) => void;
+  onTemplateSelect: (template: any) => void;
   onClearCanvas: () => void;
 }
 
@@ -109,6 +108,7 @@ export function Sidebar({
               <button
                 className={`tool-btn ${currentTool === 'select' ? 'active' : ''}`}
                 onClick={() => onToolSelect('select')}
+                title="Select (V)"
               >
                 <svg className="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M3 3l7.07 16.97 2.51-7.39 7.39-2.51L3 3z" />
@@ -118,6 +118,7 @@ export function Sidebar({
               <button
                 className={`tool-btn ${currentTool === 'text' ? 'active' : ''}`}
                 onClick={() => onToolSelect('text')}
+                title="Text (T)"
               >
                 <svg className="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M4 7V4h16v3M9 20h6M12 4v16" />
@@ -127,6 +128,7 @@ export function Sidebar({
               <button
                 className={`tool-btn ${currentTool === 'rect' ? 'active' : ''}`}
                 onClick={() => onToolSelect('rect')}
+                title="Rectangle (R)"
               >
                 <svg className="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="3" y="3" width="18" height="18" rx="2" />
@@ -136,6 +138,7 @@ export function Sidebar({
               <button
                 className={`tool-btn ${currentTool === 'circle' ? 'active' : ''}`}
                 onClick={() => onToolSelect('circle')}
+                title="Circle (C)"
               >
                 <svg className="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <circle cx="12" cy="12" r="10" />
@@ -148,6 +151,7 @@ export function Sidebar({
                 className={`tool-btn ${currentTool === 'image' ? 'active' : ''}`}
                 onClick={() => fileInputRef.current?.click()}
                 style={{ width: '100%', aspectRatio: 'auto', padding: '12px' }}
+                title="Upload Image (I)"
               >
                 <svg className="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
@@ -167,6 +171,16 @@ export function Sidebar({
           </div>
 
           <div className="sidebar-section" style={{ marginTop: 'auto' }}>
+            <div className="sidebar-section-title" style={{ fontSize: 11, marginBottom: 8, color: 'var(--text-muted)' }}>Keyboard Shortcuts</div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div><kbd style={{ background: 'var(--surface-elevated)', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>Ctrl+Z</kbd> Undo</div>
+              <div><kbd style={{ background: 'var(--surface-elevated)', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>Ctrl+Shift+Z</kbd> Redo</div>
+              <div><kbd style={{ background: 'var(--surface-elevated)', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>Delete</kbd> Delete</div>
+              <div><kbd style={{ background: 'var(--surface-elevated)', padding: '2px 6px', borderRadius: 4, marginRight: 6 }}>Ctrl+S</kbd> Save</div>
+            </div>
+          </div>
+
+          <div className="sidebar-section">
             <button 
               className="btn btn-ghost" 
               style={{ width: '100%', color: 'var(--error)' }}
