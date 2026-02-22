@@ -208,6 +208,19 @@ export function Canvas({
           onMouseDown={(e) => handleElementMouseDown(e, element)}
         />
       );
+    } else if (element.type === 'image' && element.src) {
+      content = (
+        <img
+          src={element.src}
+          alt=""
+          style={{
+            ...style,
+            objectFit: 'contain',
+            pointerEvents: 'none',
+          }}
+          onMouseDown={(e) => handleElementMouseDown(e, element)}
+        />
+      );
     }
 
     return (
