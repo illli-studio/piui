@@ -1,20 +1,30 @@
 import type { CanvasElement } from '../types';
+import { AIGenerator } from './AIGenerator';
 
 interface PropertiesPanelProps {
   selectedElements: CanvasElement[];
   onUpdate: (id: string, updates: Partial<CanvasElement>) => void;
   onDelete: (ids: string[]) => void;
+  onAIGenerate: (prompt: string) => void;
+  isGeneratingAI: boolean;
 }
 
-export function PropertiesPanel({ selectedElements, onUpdate, onDelete }: PropertiesPanelProps) {
+export function PropertiesPanel({ 
+  selectedElements, 
+  onUpdate, 
+  onDelete,
+  onAIGenerate,
+  isGeneratingAI,
+}: PropertiesPanelProps) {
   if (selectedElements.length === 0) {
     return (
       <div className="properties-panel">
+        <AIGenerator onGenerate={onAIGenerate} isGenerating={isGeneratingAI} />
         <div className="properties-empty">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
           </svg>
-          <p style={{ marginTop: 16 }}>Select an element to edit its properties</p>
+          <p style={{ marginTop: 16 }}>Select an element to edit properties, or use AI to generate covers</p>
         </div>
       </div>
     );
@@ -162,22 +172,25 @@ export function PropertiesPanel({ selectedElements, onUpdate, onDelete }: Proper
         </div>
       )}
 
-      <div className="ai-panel">
-        <div className="sidebar-section-title" style={{ marginBottom: 12 }}>AI Generate</div>
-        <div className="ai-input-wrapper">
-          <textarea
-            className="ai-input"
-            placeholder="Describe your cover... e.g., 'A dark theme YouTube thumbnail with neon blue accents and bold text'"
-          />
-          <button className="btn btn-primary ai-generate-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" />
-              <path d="M12 6v6l4 2" />
-            </svg>
-            Generate with AI
-          </button>
+      {element.type === 'image' && (
+        <div className="properties-section">
+          <div className="sidebar-section-title">Image</div>
+          <div className="properties-row">
+            <label className="properties-label">Opacity</label>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              value={element.opacity}
+              onChange={e => onUpdate(element.id, { opacity: Number(e.target.value) })}
+              style={{ flex: 1 }}
+            />
+          </div>
         </div>
-      </div>
+      )}
+
+      <AIGenerator onGenerate={onAIGenerate} isGenerating={isGeneratingAI} />
     </div>
   );
 }
