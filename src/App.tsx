@@ -5,6 +5,7 @@ import { Sidebar } from './components/Sidebar';
 import { Canvas } from './components/Canvas';
 import { PropertiesPanel } from './components/PropertiesPanel';
 import { LayersPanel } from './components/LayersPanel';
+import { ProjectManager } from './components/ProjectManager';
 import { useCanvas } from './hooks/useCanvas';
 import { generateCoverWithAI } from './services/aiService';
 import type { CanvasElement } from './types';
@@ -34,6 +35,32 @@ function App() {
   } = useCanvas();
 
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [showProjectManager, setShowProjectManager] = useState(false);
+
+  const handleSave = useCallback(() => {
+    const name = prompt('Enter project name:', `Project ${new Date().toLocaleDateString()}`);
+    if (name) {
+      const projectData = {
+        name,
+        width: state.canvasWidth,
+        height: state.canvasHeight,
+        elements: state.elements,
+        savedAt: new Date().toISOString(),
+      };
+      
+      const existing = JSON.parse(localStorage.getItem('piui_projects') || '[]');
+      existing.push(projectData);
+      localStorage.setItem('piui_projects', JSON.stringify(existing));
+      alert('Project saved!');
+    }
+  }, [state]);
+
+  const handleLoadProject = useCallback((project: any) => {
+    setCanvasSize(project.width, project.height);
+    const newElements = project.elements.map((el: any) => ({ ...el, id: uuidv4() }));
+    clearCanvas();
+    newElements.forEach((el: any) => addElement(el));
+  }, [setCanvasSize, clearCanvas, addElement]);
 
   const handleSizeSelect = useCallback((size: { width: number; height: number }) => {
     setCanvasSize(size.width, size.height);
@@ -337,6 +364,8 @@ function App() {
         onRedo={redo}
         onExport={handleExport}
         onCopyToClipboard={handleCopyToClipboard}
+        onSave={handleSave}
+        onLoad={() => setShowProjectManager(true)}
       />
       <main className="main">
         <Sidebar
@@ -396,6 +425,11 @@ function App() {
           </svg>
         </button>
       </div>
+      <ProjectManager
+        isOpen={showProjectManager}
+        onClose={() => setShowProjectManager(false)}
+        onLoadProject={handleLoadProject}
+      />
     </div>
   );
 }
