@@ -173,6 +173,25 @@ export function useCanvas() {
     });
   }, [pushHistory]);
 
+  const duplicateElements = useCallback((ids: string[]) => {
+    setState((prev: ProjectState) => {
+      const elementsToDuplicate = prev.elements.filter((el: CanvasElement) => ids.includes(el.id));
+      const newElements = elementsToDuplicate.map((el) => ({
+        ...el,
+        id: uuidv4(),
+        x: el.x + 20,
+        y: el.y + 20,
+      }));
+      const allElements = [...prev.elements, ...newElements];
+      pushHistory(allElements);
+      return {
+        ...prev,
+        elements: allElements,
+        selectedIds: newElements.map(el => el.id),
+      };
+    });
+  }, [pushHistory]);
+
   return {
     state,
     tool,
@@ -192,5 +211,6 @@ export function useCanvas() {
     toggleVisibility,
     toggleLock,
     reorderElements,
+    duplicateElements,
   };
 }

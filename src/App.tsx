@@ -1,4 +1,5 @@
 import { useEffect, useCallback, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { Canvas } from './components/Canvas';
@@ -28,6 +29,7 @@ function App() {
     toggleVisibility,
     toggleLock,
     reorderElements,
+    duplicateElements,
   } = useCanvas();
 
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
@@ -276,22 +278,61 @@ function App() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Undo
       if (e.key === 'z' && (e.ctrlKey || e.metaKey) && !e.shiftKey) {
         e.preventDefault();
         undo();
-      } else if (e.key === 'z' && (e.ctrlKey || e.metaKey) && e.shiftKey) {
+      } 
+      // Redo
+      else if (e.key === 'z' && (e.ctrlKey || e.metaKey) && e.shiftKey) {
         e.preventDefault();
         redo();
-      } else if (e.key === 'Delete' || e.key === 'Backspace') {
+      } 
+      // Delete
+      else if (e.key === 'Delete' || e.key === 'Backspace') {
         if (state.selectedIds.length > 0) {
           deleteElements(state.selectedIds);
+        }
+      }
+      // Copy (Ctrl+C)
+      else if (e.key === 'c' && (e.ctrlKey || e.metaKey)) {
+        if (state.selectedIds.length > 0) {
+          e.preventDefault();
+          const selectedElements = state.elements.filter((el: CanvasElement) => state.selectedIds.includes(el.id));
+          localStorage.setItem('piui_clipboard', JSON.stringify(selectedElements));
+        }
+      }
+      // Paste (Ctrl+V)
+      else if (e.key === 'v' && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        const clipboard = localStorage.getItem('piui_clipboard');
+        if (clipboard) {
+          try {
+            const elements = JSON.parse(clipboard);
+            const newElements = elements.map((el: CanvasElement) => ({
+              ...el,
+              id: uuidv4(),
+              x: el.x + 20,
+              y: el.y + 20,
+            }));
+            addElements(newElements);
+          } catch (err) {
+            console.error('Failed to paste:', err);
+          }
+        }
+      }
+      // Duplicate (Ctrl+D)
+      else if (e.key === 'd' && (e.ctrlKey || e.metaKey)) {
+        if (state.selectedIds.length > 0) {
+          e.preventDefault();
+          duplicateElements(state.selectedIds);
         }
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [undo, redo, state.selectedIds, deleteElements]);
+  }, [undo, redo, state.selectedIds, state.elements, deleteElements, duplicateElements, addElements]);
 
   const selectedElements = state.elements.filter((el: CanvasElement) => state.selectedIds.includes(el.id));
 
