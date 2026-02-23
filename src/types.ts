@@ -2,6 +2,14 @@
 
 export type ElementType = 'text' | 'rectangle' | 'circle' | 'image';
 
+export type GradientType = 'linear' | 'radial';
+
+export interface Gradient {
+  type: GradientType;
+  colors: string[];
+  angle?: number; // for linear gradient
+}
+
 export interface CanvasElement {
   id: string;
   type: ElementType;
@@ -22,6 +30,7 @@ export interface CanvasElement {
   fill?: string;
   stroke?: string;
   strokeWidth?: number;
+  gradient?: Gradient;
   // Image specific
   src?: string;
   // Shadow

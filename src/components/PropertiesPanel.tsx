@@ -148,9 +148,81 @@ export function PropertiesPanel({
               type="color"
               className="color-input"
               value={element.fill || '#3B82F6'}
-              onChange={e => onUpdate(element.id, { fill: e.target.value })}
+              onChange={e => onUpdate(element.id, { fill: e.target.value, gradient: undefined })}
             />
           </div>
+          
+          {/* Gradient Toggle */}
+          <div className="properties-row">
+            <label className="properties-label">Gradient</label>
+            <button
+              className={`btn btn-ghost ${element.gradient ? 'active' : ''}`}
+              style={{ padding: '4px 8px', fontSize: 12 }}
+              onClick={() => {
+                if (element.gradient) {
+                  onUpdate(element.id, { gradient: undefined });
+                } else {
+                  onUpdate(element.id, { 
+                    gradient: { 
+                      type: 'linear', 
+                      colors: [element.fill || '#3B82F6', '#ffffff'],
+                      angle: 45 
+                    } 
+                  });
+                }
+              }}
+            >
+              {element.gradient ? '✓ On' : 'Off'}
+            </button>
+          </div>
+          
+          {/* Gradient Colors */}
+          {element.gradient && (
+            <>
+              <div className="properties-row">
+                <label className="properties-label">Color 1</label>
+                <input
+                  type="color"
+                  className="color-input"
+                  value={element.gradient.colors[0] || '#3B82F6'}
+                  onChange={e => {
+                    const colors = [...element.gradient!.colors];
+                    colors[0] = e.target.value;
+                    onUpdate(element.id, { gradient: { type: 'linear', colors } });
+                  }}
+                />
+              </div>
+              <div className="properties-row">
+                <label className="properties-label">Color 2</label>
+                <input
+                  type="color"
+                  className="color-input"
+                  value={element.gradient.colors[1] || '#ffffff'}
+                  onChange={e => {
+                    const colors = [...element.gradient!.colors];
+                    colors[1] = e.target.value;
+                    onUpdate(element.id, { gradient: { type: 'linear', colors } });
+                  }}
+                />
+              </div>
+              <div className="properties-row">
+                <label className="properties-label">Angle</label>
+                <input
+                  type="range"
+                  min="0"
+                  max="360"
+                  value={element.gradient.angle || 45}
+                  onChange={e => {
+                    const angle = Number(e.target.value);
+                    onUpdate(element.id, { gradient: { type: 'linear', colors: element.gradient!.colors, angle } });
+                  }}
+                  style={{ flex: 1 }}
+                />
+                <span style={{ color: 'var(--text-muted)', fontSize: 12, width: 30 }}>{element.gradient.angle || 45}°</span>
+              </div>
+            </>
+          )}
+          
           <div className="properties-row">
             <label className="properties-label">Stroke</label>
             <input
@@ -167,6 +239,50 @@ export function PropertiesPanel({
               className="properties-input"
               value={element.strokeWidth || 0}
               onChange={e => onUpdate(element.id, { strokeWidth: Number(e.target.value) })}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Shadow Section */}
+      {(element.type === 'rectangle' || element.type === 'circle' || element.type === 'text') && (
+        <div className="properties-section">
+          <div className="sidebar-section-title">Shadow</div>
+          <div className="properties-row">
+            <label className="properties-label">Color</label>
+            <input
+              type="color"
+              className="color-input"
+              value={element.shadowColor || '#000000'}
+              onChange={e => onUpdate(element.id, { shadowColor: e.target.value })}
+            />
+          </div>
+          <div className="properties-row">
+            <label className="properties-label">Blur</label>
+            <input
+              type="range"
+              min="0"
+              max="50"
+              value={element.shadowBlur || 0}
+              onChange={e => onUpdate(element.id, { shadowBlur: Number(e.target.value) })}
+              style={{ flex: 1 }}
+            />
+            <span style={{ color: 'var(--text-muted)', fontSize: 12, width: 30 }}>{element.shadowBlur || 0}</span>
+          </div>
+          <div className="properties-row">
+            <label className="properties-label">Offset X</label>
+            <input
+              type="number"
+              className="properties-input"
+              value={element.shadowOffsetX || 0}
+              onChange={e => onUpdate(element.id, { shadowOffsetX: Number(e.target.value) })}
+            />
+            <label className="properties-label">Y</label>
+            <input
+              type="number"
+              className="properties-input"
+              value={element.shadowOffsetY || 0}
+              onChange={e => onUpdate(element.id, { shadowOffsetY: Number(e.target.value) })}
             />
           </div>
         </div>

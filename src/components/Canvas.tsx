@@ -371,6 +371,9 @@ export function Canvas({
               color: element.color || '#000000',
               fontFamily: element.fontFamily || 'DM Sans',
               fontWeight: element.fontWeight || 400,
+              textShadow: element.shadowColor ? 
+                `${element.shadowOffsetX || 0}px ${element.shadowOffsetY || 0}px ${element.shadowBlur || 0}px ${element.shadowColor}` 
+                : undefined,
             }}
             onMouseDown={(e) => handleElementMouseDown(e, element)}
             onDoubleClick={(e) => handleTextDoubleClick(e, element)}
@@ -380,27 +383,46 @@ export function Canvas({
         );
       }
     } else if (element.type === 'rectangle') {
+      // Build gradient background
+      let background = element.fill || '#3B82F6';
+      if (element.gradient && element.gradient.colors && element.gradient.colors.length >= 2) {
+        const angle = element.gradient.angle || 45;
+        background = `linear-gradient(${angle}deg, ${element.gradient.colors[0]}, ${element.gradient.colors[1]})`;
+      }
+      
       content = (
         <div
           className="canvas-element"
           style={{
             ...style,
-            backgroundColor: element.fill || '#3B82F6',
+            background: background,
             border: element.strokeWidth ? `${element.strokeWidth}px solid ${element.stroke || '#000000'}` : 'none',
             borderRadius: 8,
+            boxShadow: element.shadowColor ? 
+              `${element.shadowOffsetX || 0}px ${element.shadowOffsetY || 0}px ${element.shadowBlur || 0}px ${element.shadowColor}` 
+              : undefined,
           }}
           onMouseDown={(e) => handleElementMouseDown(e, element)}
         />
       );
     } else if (element.type === 'circle') {
+      // Build gradient background
+      let background = element.fill || '#EF4444';
+      if (element.gradient && element.gradient.colors && element.gradient.colors.length >= 2) {
+        background = `radial-gradient(circle, ${element.gradient.colors[0]}, ${element.gradient.colors[1]})`;
+      }
+      
       content = (
         <div
           className="canvas-element"
           style={{
             ...style,
-            backgroundColor: element.fill || '#EF4444',
+            background: background,
             border: element.strokeWidth ? `${element.strokeWidth}px solid ${element.stroke || '#000000'}` : 'none',
             borderRadius: '50%',
+            boxShadow: element.shadowColor ? 
+              `${element.shadowOffsetX || 0}px ${element.shadowOffsetY || 0}px ${element.shadowBlur || 0}px ${element.shadowColor}` 
+              : undefined,
           }}
           onMouseDown={(e) => handleElementMouseDown(e, element)}
         />
