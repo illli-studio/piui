@@ -95,6 +95,12 @@ export function Canvas({
 
   const handleElementMouseDown = useCallback((e: React.MouseEvent, element: CanvasElement) => {
     e.stopPropagation();
+    
+    // Skip if element is hidden or locked
+    if (element.visible === false || element.locked === true) {
+      return;
+    }
+    
     onSelect(element.id, e.shiftKey);
     
     if (tool === 'select') {
@@ -153,6 +159,11 @@ export function Canvas({
 
   const renderElement = (element: CanvasElement) => {
     const isSelected = selectedIds.includes(element.id);
+    
+    // Don't render hidden elements
+    if (element.visible === false) {
+      return null;
+    }
     
     const style: React.CSSProperties = {
       position: 'absolute',

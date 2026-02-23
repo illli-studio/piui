@@ -29,6 +29,9 @@ export interface CanvasElement {
   shadowBlur?: number;
   shadowOffsetX?: number;
   shadowOffsetY?: number;
+  // Layer control
+  visible?: boolean;
+  locked?: boolean;
 }
 
 export interface CanvasSize {

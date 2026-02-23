@@ -145,6 +145,34 @@ export function useCanvas() {
     });
   }, [pushHistory]);
 
+  const toggleVisibility = useCallback((id: string) => {
+    setState((prev: ProjectState) => {
+      const newElements = prev.elements.map((el: CanvasElement) => 
+        el.id === id ? { ...el, visible: el.visible === false ? true : false } : el
+      );
+      return { ...prev, elements: newElements };
+    });
+  }, []);
+
+  const toggleLock = useCallback((id: string) => {
+    setState((prev: ProjectState) => {
+      const newElements = prev.elements.map((el: CanvasElement) => 
+        el.id === id ? { ...el, locked: el.locked === true ? false : true } : el
+      );
+      return { ...prev, elements: newElements };
+    });
+  }, []);
+
+  const reorderElements = useCallback((fromIndex: number, toIndex: number) => {
+    setState((prev: ProjectState) => {
+      const newElements = [...prev.elements];
+      const [removed] = newElements.splice(fromIndex, 1);
+      newElements.splice(toIndex, 0, removed);
+      pushHistory(newElements);
+      return { ...prev, elements: newElements };
+    });
+  }, [pushHistory]);
+
   return {
     state,
     tool,
@@ -161,5 +189,8 @@ export function useCanvas() {
     redo,
     clearCanvas,
     loadTemplate,
+    toggleVisibility,
+    toggleLock,
+    reorderElements,
   };
 }

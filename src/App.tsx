@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { Canvas } from './components/Canvas';
 import { PropertiesPanel } from './components/PropertiesPanel';
+import { LayersPanel } from './components/LayersPanel';
 import { useCanvas } from './hooks/useCanvas';
 import type { CanvasElement } from './types';
 import type { Template } from './data/templates';
@@ -24,6 +25,9 @@ function App() {
     redo,
     clearCanvas,
     loadTemplate,
+    toggleVisibility,
+    toggleLock,
+    reorderElements,
   } = useCanvas();
 
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
@@ -326,6 +330,15 @@ function App() {
           onDelete={deleteElements}
           onAIGenerate={handleAIGenerate}
           isGeneratingAI={isGeneratingAI}
+        />
+        <LayersPanel
+          elements={state.elements}
+          selectedIds={state.selectedIds}
+          onSelect={selectElement}
+          onToggleVisibility={toggleVisibility}
+          onToggleLock={toggleLock}
+          onReorder={reorderElements}
+          onDelete={(id) => deleteElements([id])}
         />
       </main>
       <div className="zoom-controls">
