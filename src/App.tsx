@@ -72,6 +72,19 @@ function App() {
     }
   }, []);
 
+  // Warn before leaving with unsaved work
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (state.elements.length > 0) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [state.elements.length]);
+
   const handleSave = useCallback(() => {
     const name = prompt('Enter project name:', `Project ${new Date().toLocaleDateString()}`);
     if (name) {
