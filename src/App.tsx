@@ -280,6 +280,104 @@ function App() {
     }
   }, [state, exportFormat]);
 
+  const handleCopyToClipboard = useCallback(async () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = state.canvasWidth;
+    canvas.height = state.canvasHeight;
+    const ctx = canvas.getContext('2d');
+    
+    if (ctx) {
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      
+      state.elements.forEach((element) => {
+        ctx.save();
+        ctx.globalAlpha = element.opacity;
+        
+        const centerX = element.x + element.width / 2;
+        const centerY = element.y + element.height / 2;
+        ctx.translate(centerX, centerY);
+        ctx.rotate((element.rotation * Math.PI) / 180);
+        ctx.translate(-centerX, -centerY);
+        
+        if (element.type === 'text') {
+          ctx.font = `${element.fontWeight || 400} ${element.fontSize || 24}px ${element.fontFamily || 'DM Sans'}`;
+          ctx.fillStyle = element.color || '#000000';
+          ctx.textBaseline = 'top';
+          ctx.textAlign = element.textAlign || 'left';
+          ctx.fillText(element.text || '', element.x, element.y);
+        } else if (element.type === 'rectangle') {
+          let fill = element.fill || '#3B82F6';
+          if (element.gradient && element.gradient.colors && element.gradient.colors.length >= 2) {
+            const angle = element.gradient.angle || 45;
+            const angleRad = (angle - 90) * Math.PI / 180;
+            const grad = ctx.createLinearGradient(
+              element.x + element.width/2 - Math.cos(angleRad) * element.width/2,
+              element.y + element.height/2 - Math.sin(angleRad) * element.height/2,
+              element.x + element.width/2 + Math.cos(angleRad) * element.width/2,
+              element.y + element.height/2 + Math.sin(angleRad) * element.height/2
+            );
+            grad.addColorStop(0, element.gradient.colors[0]);
+            grad.addColorStop(1, element.gradient.colors[1]);
+            fill = grad as unknown as string;
+          }
+          ctx.fillStyle = fill;
+          ctx.fillRect(element.x, element.y, element.width, element.height);
+          if (element.strokeWidth) {
+            ctx.strokeStyle = element.stroke || '#000000';
+            ctx.lineWidth = element.strokeWidth;
+            ctx.strokeRect(element.x, element.y, element.width, element.height);
+          }
+        } else if (element.type === 'circle') {
+          let fill = element.fill || '#EF4444';
+          if (element.gradient && element.gradient.colors && element.gradient.colors.length >= 2) {
+            const grad = ctx.createRadialGradient(
+              element.x + element.width/2, element.y + element.height/2, 0,
+              element.x + element.width/2, element.y + element.height/2, element.width/2
+            );
+            grad.addColorStop(0, element.gradient.colors[0]);
+            grad.addColorStop(1, element.gradient.colors[1]);
+            fill = grad as unknown as string;
+          }
+          ctx.fillStyle = fill;
+          ctx.beginPath();
+          ctx.ellipse(
+            element.x + element.width / 2,
+            element.y + element.height / 2,
+            element.width / 2,
+            element.height / 2,
+            0, 0, Math.PI * 2
+          );
+          ctx.fill();
+          if (element.strokeWidth) {
+            ctx.strokeStyle = element.stroke || '#000000';
+            ctx.lineWidth = element.strokeWidth;
+            ctx.stroke();
+          }
+        } else if (element.type === 'image' && element.src) {
+          const img = new Image();
+          img.src = element.src;
+          ctx.drawImage(img, element.x, element.y, element.width, element.height);
+        }
+        
+        ctx.restore();
+      });
+      
+      try {
+        const blob = await new Promise<Blob>((resolve) => {
+          canvas.toBlob((b) => resolve(b!), 'image/png');
+        });
+        await navigator.clipboard.write([
+          new ClipboardItem({ 'image/png': blob })
+        ]);
+        alert('Copied to clipboard!');
+      } catch (err) {
+        console.error('Failed to copy:', err);
+        alert('Failed to copy to clipboard');
+      }
+    }
+  }, [state]);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Undo
@@ -346,6 +444,7 @@ function App() {
         onUndo={undo}
         onRedo={redo}
         onExport={handleExport}
+        onCopyToClipboard={handleCopyToClipboard}
       />
       <main className="main">
         <Sidebar
