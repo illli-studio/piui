@@ -219,11 +219,22 @@ function App() {
         ctx.rotate((element.rotation * Math.PI) / 180);
         ctx.translate(-centerX, -centerY);
         
+        // Apply shadow if present
+        if (element.shadowColor) {
+          ctx.shadowColor = element.shadowColor;
+          ctx.shadowBlur = element.shadowBlur || 0;
+          ctx.shadowOffsetX = element.shadowOffsetX || 0;
+          ctx.shadowOffsetY = element.shadowOffsetY || 0;
+        }
+        
         if (element.type === 'text') {
           ctx.font = `${element.fontWeight || 400} ${element.fontSize || 24}px ${element.fontFamily || 'DM Sans'}`;
           ctx.fillStyle = element.color || '#000000';
           ctx.textBaseline = 'top';
           ctx.textAlign = element.textAlign || 'left';
+          if (element.fontStyle === 'italic') {
+            ctx.font = `italic ${ctx.font}`;
+          }
           ctx.fillText(element.text || '', element.x, element.y);
         } else if (element.type === 'rectangle') {
           let fill = element.fill || '#3B82F6';

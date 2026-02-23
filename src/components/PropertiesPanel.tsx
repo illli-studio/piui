@@ -198,6 +198,13 @@ export function PropertiesPanel({
                   <line x1="21" y1="10" x2="7" y2="10" /><line x1="21" y1="6" x2="3" y2="6" /><line x1="21" y1="14" x2="3" y2="14" /><line x1="21" y1="18" x2="7" y2="18" />
                 </svg>
               </button>
+              <button
+                className={`btn btn-ghost ${element.fontStyle === 'italic' ? 'active' : ''}`}
+                style={{ padding: '4px 8px', fontStyle: 'italic' }}
+                onClick={() => onUpdate(element.id, { fontStyle: element.fontStyle === 'italic' ? 'normal' : 'italic' })}
+              >
+                I
+              </button>
             </div>
           </div>
         </div>
