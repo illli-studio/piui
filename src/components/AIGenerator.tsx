@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface AIGeneratorProps {
   onGenerate: (prompt: string) => void;
@@ -10,6 +10,14 @@ export function AIGenerator({ onGenerate, isGenerating }: AIGeneratorProps) {
   const [apiKey, setApiKey] = useState('');
   const [showSettings, setShowSettings] = useState(false);
 
+  // Load saved API key on mount
+  useEffect(() => {
+    const savedKey = localStorage.getItem('piui_api_key');
+    if (savedKey) {
+      setApiKey(savedKey);
+    }
+  }, []);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (prompt.trim() && !isGenerating) {
@@ -18,8 +26,17 @@ export function AIGenerator({ onGenerate, isGenerating }: AIGeneratorProps) {
   };
 
   const handleApiKeySave = () => {
-    localStorage.setItem('piui_api_key', apiKey);
-    setShowSettings(false);
+    if (apiKey.trim()) {
+      localStorage.setItem('piui_api_key', apiKey);
+      setShowSettings(false);
+      alert('API Key saved!');
+    }
+  };
+
+  const handleClearApiKey = () => {
+    localStorage.removeItem('piui_api_key');
+    setApiKey('');
+    alert('API Key cleared');
   };
 
   const presets = [
@@ -48,23 +65,54 @@ export function AIGenerator({ onGenerate, isGenerating }: AIGeneratorProps) {
       </button>
       
       {showSettings && (
-        <div style={{ marginBottom: 12, padding: 8, background: 'var(--surface-elevated)', borderRadius: 8 }}>
-          <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 6 }}>MiniMax API Key</div>
-          <input
-            type="password"
-            className="properties-input"
-            placeholder="Enter API key..."
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            style={{ fontSize: 12 }}
-          />
-          <button 
-            className="btn btn-primary" 
-            onClick={handleApiKeySave}
-            style={{ marginTop: 6, width: '100%', fontSize: 12, padding: '6px' }}
-          >
-            Save
-          </button>
+        <div style={{ marginBottom: 12, padding: 12, background: 'var(--surface-elevated)', borderRadius: 8 }}>
+          <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 8 }}>
+            <strong>MiniMax API Configuration</strong>
+          </div>
+          <div style={{ fontSize: 10, color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.4 }}>
+            PiUI uses MiniMax AI for intelligent cover generation. Get your API key from:
+            <a 
+              href="https://platform.minimaxi.com" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ color: 'var(--primary)', display: 'block', marginTop: 4 }}
+            >
+              https://platform.minimaxi.com →
+            </a>
+          </div>
+          
+          <div style={{ marginBottom: 8 }}>
+            <div style={{ fontSize: 11, color: 'var(--text-secondary)', marginBottom: 4 }}>API Key</div>
+            <input
+              type="password"
+              className="properties-input"
+              placeholder="sk-..."
+              value={apiKey}
+              onChange={(e) => setApiKey(e.target.value)}
+              style={{ fontSize: 12 }}
+            />
+          </div>
+          
+          <div style={{ display: 'flex', gap: 8 }}>
+            <button 
+              className="btn btn-primary" 
+              onClick={handleApiKeySave}
+              style={{ flex: 1, fontSize: 11, padding: '6px' }}
+            >
+              Save Key
+            </button>
+            <button 
+              className="btn btn-ghost" 
+              onClick={handleClearApiKey}
+              style={{ fontSize: 11, padding: '6px', color: 'var(--error)' }}
+            >
+              Clear
+            </button>
+          </div>
+          
+          <div style={{ marginTop: 10, padding: 8, background: 'var(--bg-dark)', borderRadius: 4, fontSize: 10, color: 'var(--text-muted)' }}>
+            <strong>Note:</strong> Without API key, AI still works with smart templates (10 color schemes, multiple scene types). API enables more advanced AI generation.
+          </div>
         </div>
       )}
       

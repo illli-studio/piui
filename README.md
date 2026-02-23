@@ -47,6 +47,22 @@
 - **Decorative Elements** - AI-added accent circles and shapes
 - **MiniMax API Support** - Optional API key for advanced AI generation
 
+### 🔧 AI Configuration
+
+PiUI supports two modes for AI generation:
+
+1. **Smart Templates (Default, No API Key Required)**
+   - Works offline without any configuration
+   - 10 beautiful color schemes
+   - Multiple scene types (YouTube, Instagram, Quote, Sale, TikTok, etc.)
+   - Auto-generates gradient backgrounds and decorative elements
+
+2. **Advanced AI (Requires MiniMax API Key)**
+   - Get your API key from: https://platform.minimaxi.com
+   - Click "API Settings" in the AI panel
+   - Enter your API key and click "Save Key"
+   - More intelligent and customizable generation
+
 ### 💾 Project Management
 - **Save Projects** - Save to local storage
 - **Load Projects** - Load from saved projects
