@@ -6,6 +6,7 @@ import { Canvas } from './components/Canvas';
 import { PropertiesPanel } from './components/PropertiesPanel';
 import { LayersPanel } from './components/LayersPanel';
 import { useCanvas } from './hooks/useCanvas';
+import { generateCoverWithAI } from './services/aiService';
 import type { CanvasElement } from './types';
 import type { Template } from './data/templates';
 
@@ -78,136 +79,27 @@ function App() {
   const handleAIGenerate = useCallback(async (prompt: string) => {
     setIsGeneratingAI(true);
     
-    // Simulate AI generation - in production, this would call the pi agent API
-    setTimeout(() => {
-      // Generate elements based on prompt
-      const newElements: Omit<CanvasElement, 'id'>[] = [];
+    try {
+      // Call AI service to generate cover
+      const result = await generateCoverWithAI(
+        prompt, 
+        state.canvasWidth, 
+        state.canvasHeight
+      );
       
-      // Background
-      newElements.push({
-        type: 'rectangle',
-        x: 0,
-        y: 0,
-        width: state.canvasWidth,
-        height: state.canvasHeight,
-        rotation: 0,
-        opacity: 1,
-        fill: '#1a1a2e',
-        stroke: '',
-        strokeWidth: 0,
-      });
-
-      // Check prompt keywords
-      const lowerPrompt = prompt.toLowerCase();
+      // Convert AI elements to canvas elements
+      const newElements = result.elements.map((el) => ({
+        ...el,
+        id: uuidv4(),
+      })) as Omit<CanvasElement, 'id'>[];
       
-      if (lowerPrompt.includes('youtube') || lowerPrompt.includes('thumbnail')) {
-        newElements.push({
-          type: 'text',
-          x: state.canvasWidth / 2,
-          y: state.canvasHeight / 2 - 40,
-          width: 600,
-          height: 80,
-          rotation: 0,
-          opacity: 1,
-          text: 'YOUR TITLE',
-          fontSize: 56,
-          fontWeight: 700,
-          color: '#ffffff',
-          fontFamily: 'Outfit',
-        });
-        newElements.push({
-          type: 'text',
-          x: state.canvasWidth / 2,
-          y: state.canvasHeight / 2 + 40,
-          width: 400,
-          height: 36,
-          rotation: 0,
-          opacity: 0.8,
-          text: 'Subscribe for more',
-          fontSize: 24,
-          fontWeight: 400,
-          color: '#F97316',
-          fontFamily: 'DM Sans',
-        });
-      } else if (lowerPrompt.includes('quote')) {
-        newElements.push({
-          type: 'text',
-          x: state.canvasWidth / 2,
-          y: state.canvasHeight / 2 - 60,
-          width: Math.min(700, state.canvasWidth - 80),
-          height: 120,
-          rotation: 0,
-          opacity: 1,
-          text: '"Your inspiring quote here"',
-          fontSize: Math.min(36, state.canvasWidth / 30),
-          fontWeight: 500,
-          color: '#ffffff',
-          fontFamily: 'DM Sans',
-        });
-      } else if (lowerPrompt.includes('sale') || lowerPrompt.includes('discount')) {
-        newElements.push({
-          type: 'text',
-          x: state.canvasWidth / 2,
-          y: state.canvasHeight / 2 - 50,
-          width: 600,
-          height: 80,
-          rotation: 0,
-          opacity: 1,
-          text: 'FLASH SALE',
-          fontSize: 64,
-          fontWeight: 700,
-          color: '#ffffff',
-          fontFamily: 'Outfit',
-        });
-        newElements.push({
-          type: 'text',
-          x: state.canvasWidth / 2,
-          y: state.canvasHeight / 2 + 30,
-          width: 400,
-          height: 40,
-          rotation: 0,
-          opacity: 1,
-          text: 'UP TO 50% OFF',
-          fontSize: 32,
-          fontWeight: 600,
-          color: '#FBBF24',
-          fontFamily: 'Outfit',
-        });
-      } else {
-        // Default modern cover
-        newElements.push({
-          type: 'text',
-          x: state.canvasWidth / 2,
-          y: state.canvasHeight / 2 - 20,
-          width: 500,
-          height: 60,
-          rotation: 0,
-          opacity: 1,
-          text: 'PiUI Generated',
-          fontSize: 48,
-          fontWeight: 600,
-          color: '#ffffff',
-          fontFamily: 'Outfit',
-        });
-      }
-
-      // Add decorative circle accent
-      newElements.push({
-        type: 'circle',
-        x: state.canvasWidth - 150,
-        y: 80,
-        width: 100,
-        height: 100,
-        rotation: 0,
-        opacity: 0.8,
-        fill: '#F97316',
-        stroke: '',
-        strokeWidth: 0,
-      });
-
       addElements(newElements);
+    } catch (error) {
+      console.error('AI generation failed:', error);
+      alert('AI generation failed. Please try again.');
+    } finally {
       setIsGeneratingAI(false);
-    }, 1500);
+    }
   }, [state.canvasWidth, state.canvasHeight, addElements]);
 
   const [exportFormat] = useState<'png' | 'jpg'>('png');

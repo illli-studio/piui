@@ -354,6 +354,7 @@ export function Canvas({
               color: element.color || '#000000',
               fontFamily: element.fontFamily || 'DM Sans',
               fontWeight: element.fontWeight || 400,
+              fontStyle: element.fontStyle,
               background: 'transparent',
               border: '1px dashed #F97316',
               outline: 'none',
@@ -371,6 +372,7 @@ export function Canvas({
               color: element.color || '#000000',
               fontFamily: element.fontFamily || 'DM Sans',
               fontWeight: element.fontWeight || 400,
+              fontStyle: element.fontStyle,
               textShadow: element.shadowColor ? 
                 `${element.shadowOffsetX || 0}px ${element.shadowOffsetY || 0}px ${element.shadowBlur || 0}px ${element.shadowColor}` 
                 : undefined,

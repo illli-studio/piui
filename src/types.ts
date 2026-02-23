@@ -24,6 +24,7 @@ export interface CanvasElement {
   fontFamily?: string;
   fontSize?: number;
   fontWeight?: number;
+  fontStyle?: string;
   color?: string;
   textAlign?: 'left' | 'center' | 'right';
   // Shape specific
