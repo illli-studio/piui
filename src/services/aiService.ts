@@ -1,7 +1,7 @@
 // AI Service for PiUI - Uses MiniMax API for intelligent cover generation
 
 export interface GeneratedElement {
-  type: 'text' | 'rectangle' | 'circle' | 'image';
+  type: 'text' | 'rectangle' | 'circle' | 'image' | 'line';
   x: number;
   y: number;
   width: number;

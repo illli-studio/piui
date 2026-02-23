@@ -47,6 +47,12 @@ export function LayersPanel({
             <path d="M21 15l-5-5L5 21" />
           </svg>
         );
+      case 'line':
+        return (
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="5" y1="19" x2="19" y2="5" />
+          </svg>
+        );
       default:
         return (
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
