@@ -30,6 +30,8 @@ export function Canvas({
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [editingTextId, setEditingTextId] = useState<string | null>(null);
+  const [editText, setEditText] = useState('');
 
   const handleCanvasClick = useCallback((e: React.MouseEvent) => {
     if (e.target === canvasRef.current) {
@@ -157,6 +159,32 @@ export function Canvas({
     };
   }, [isDragging, selectedIds, elements, dragStart, dragOffset, zoom, onUpdateElement]);
 
+  const handleTextDoubleClick = useCallback((e: React.MouseEvent, element: CanvasElement) => {
+    e.stopPropagation();
+    if (element.type === 'text' && tool === 'select') {
+      setEditingTextId(element.id);
+      setEditText(element.text || '');
+    }
+  }, [tool]);
+
+  const handleTextEditBlur = useCallback(() => {
+    if (editingTextId) {
+      onUpdateElement(editingTextId, { text: editText });
+      setEditingTextId(null);
+      setEditText('');
+    }
+  }, [editingTextId, editText, onUpdateElement]);
+
+  const handleTextEditKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      setEditingTextId(null);
+      setEditText('');
+    } else if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleTextEditBlur();
+    }
+  }, [handleTextEditBlur]);
+
   const renderElement = (element: CanvasElement) => {
     const isSelected = selectedIds.includes(element.id);
     
@@ -178,21 +206,49 @@ export function Canvas({
 
     let content;
     if (element.type === 'text') {
-      content = (
-        <div
-          className="canvas-element canvas-text"
-          style={{
-            ...style,
-            fontSize: element.fontSize || 24,
-            color: element.color || '#000000',
-            fontFamily: element.fontFamily || 'DM Sans',
-            fontWeight: element.fontWeight || 400,
-          }}
-          onMouseDown={(e) => handleElementMouseDown(e, element)}
-        >
-          {element.text}
-        </div>
-      );
+      const isEditing = editingTextId === element.id;
+      
+      if (isEditing) {
+        content = (
+          <input
+            type="text"
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+            onBlur={handleTextEditBlur}
+            onKeyDown={handleTextEditKeyDown}
+            autoFocus
+            className="text-editor-input"
+            style={{
+              ...style,
+              fontSize: element.fontSize || 24,
+              color: element.color || '#000000',
+              fontFamily: element.fontFamily || 'DM Sans',
+              fontWeight: element.fontWeight || 400,
+              background: 'transparent',
+              border: '1px dashed #F97316',
+              outline: 'none',
+              padding: 4,
+            }}
+          />
+        );
+      } else {
+        content = (
+          <div
+            className="canvas-element canvas-text"
+            style={{
+              ...style,
+              fontSize: element.fontSize || 24,
+              color: element.color || '#000000',
+              fontFamily: element.fontFamily || 'DM Sans',
+              fontWeight: element.fontWeight || 400,
+            }}
+            onMouseDown={(e) => handleElementMouseDown(e, element)}
+            onDoubleClick={(e) => handleTextDoubleClick(e, element)}
+          >
+            {element.text}
+          </div>
+        );
+      }
     } else if (element.type === 'rectangle') {
       content = (
         <div

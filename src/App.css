@@ -748,3 +748,9 @@ h1, h2, h3, h4, h5, h6 {
 .loading {
   animation: pulse 1.5s ease-in-out infinite;
 }
+
+.text-editor-input {
+  width: 100%;
+  height: 100%;
+}
+
