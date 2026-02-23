@@ -461,11 +461,44 @@ function App() {
           duplicateElements(state.selectedIds);
         }
       }
+      // Tool shortcuts (when not in input)
+      else if (!['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) {
+        // Select tool (V)
+        if (e.key === 'v' && !e.ctrlKey && !e.metaKey) {
+          setTool('select');
+        }
+        // Text tool (T)
+        else if (e.key === 't' && !e.ctrlKey && !e.metaKey) {
+          setTool('text');
+        }
+        // Rectangle tool (R)
+        else if (e.key === 'r' && !e.ctrlKey && !e.metaKey) {
+          setTool('rect');
+        }
+        // Circle tool (C)
+        else if (e.key === 'c' && !e.ctrlKey && !e.metaKey) {
+          setTool('circle');
+        }
+        // Line tool (L)
+        else if (e.key === 'l' && !e.ctrlKey && !e.metaKey) {
+          setTool('line');
+        }
+        // Image tool (I)
+        else if (e.key === 'i' && !e.ctrlKey && !e.metaKey) {
+          // Trigger image upload
+          const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+          if (fileInput) fileInput.click();
+        }
+        // Escape to deselect
+        else if (e.key === 'Escape') {
+          clearSelection();
+        }
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [undo, redo, state.selectedIds, state.elements, deleteElements, duplicateElements, addElements]);
+  }, [undo, redo, state.selectedIds, state.elements, deleteElements, duplicateElements, addElements, setTool, clearSelection]);
 
   const selectedElements = state.elements.filter((el: CanvasElement) => state.selectedIds.includes(el.id));
 
