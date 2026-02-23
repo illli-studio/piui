@@ -29,10 +29,11 @@ export function Canvas({
   const canvasRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const [isRotating, setIsRotating] = useState(false);
   const [resizeHandle, setResizeHandle] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [resizeStart, setResizeStart] = useState({ width: 0, height: 0, x: 0, y: 0 });
+  const [resizeStart, setResizeStart] = useState({ width: 0, height: 0, x: 0, y: 0, rotation: 0, centerX: 0, centerY: 0 });
   const [editingTextId, setEditingTextId] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
 
@@ -137,6 +138,29 @@ export function Canvas({
           height: element.height,
           x: (e.clientX - rect.left) / zoom,
           y: (e.clientY - rect.top) / zoom,
+          rotation: element.rotation,
+          centerX: element.x + element.width / 2,
+          centerY: element.y + element.height / 2,
+        });
+      }
+    }
+  }, [selectedIds, elements, zoom]);
+
+  const handleRotateStart = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    const element = elements.find(el => selectedIds.includes(el.id));
+    if (element) {
+      setIsRotating(true);
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (rect) {
+        setResizeStart({
+          width: element.width,
+          height: element.height,
+          x: (e.clientX - rect.left) / zoom,
+          y: (e.clientY - rect.top) / zoom,
+          rotation: element.rotation,
+          centerX: element.x + element.width / 2,
+          centerY: element.y + element.height / 2,
         });
       }
     }
@@ -227,6 +251,43 @@ export function Canvas({
     window.addEventListener('mousemove', handleResizeMove);
     return () => window.removeEventListener('mousemove', handleResizeMove);
   }, [isResizing, resizeHandle, selectedIds, elements, resizeStart, zoom, onUpdateElement]);
+
+  // Handle rotation
+  useEffect(() => {
+    if (!isRotating || selectedIds.length === 0) return;
+
+    const element = elements.find(el => selectedIds.includes(el.id));
+    if (!element) return;
+
+    const handleRotateMove = (e: MouseEvent) => {
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      const currentX = (e.clientX - rect.left) / zoom;
+      const currentY = (e.clientY - rect.top) / zoom;
+
+      const centerX = resizeStart.centerX;
+      const centerY = resizeStart.centerY;
+
+      const angle = Math.atan2(currentY - centerY, currentX - centerX);
+      const startAngle = Math.atan2(resizeStart.y - centerY, resizeStart.x - centerX);
+      const deltaAngle = (angle - startAngle) * (180 / Math.PI);
+
+      const newRotation = resizeStart.rotation + deltaAngle;
+      onUpdateElement(element.id, { rotation: newRotation });
+    };
+
+    const handleRotateEnd = () => {
+      setIsRotating(false);
+    };
+
+    window.addEventListener('mousemove', handleRotateMove);
+    window.addEventListener('mouseup', handleRotateEnd);
+    return () => {
+      window.removeEventListener('mousemove', handleRotateMove);
+      window.removeEventListener('mouseup', handleRotateEnd);
+    };
+  }, [isRotating, selectedIds, elements, resizeStart, zoom, onUpdateElement]);
 
   const handleTextDoubleClick = useCallback((e: React.MouseEvent, element: CanvasElement) => {
     e.stopPropagation();
@@ -384,6 +445,13 @@ export function Canvas({
             <div className="resize-handle s" onMouseDown={(e) => handleResizeStart(e, 's')} />
             <div className="resize-handle e" onMouseDown={(e) => handleResizeStart(e, 'e')} />
             <div className="resize-handle w" onMouseDown={(e) => handleResizeStart(e, 'w')} />
+            {/* Rotate handle */}
+            <div className="rotate-handle" onMouseDown={handleRotateStart}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M23 4v6h-6M1 20v-6h6" />
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+              </svg>
+            </div>
           </>
         )}
       </div>

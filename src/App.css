@@ -835,3 +835,26 @@ h1, h2, h3, h4, h5, h6 {
 .resize-handle.s { bottom: -5px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
 .resize-handle.e { right: -5px; top: 50%; transform: translateY(-50%); cursor: e-resize; }
 .resize-handle.w { left: -5px; top: 50%; transform: translateY(-50%); cursor: w-resize; }
+
+/* Rotate Handle */
+.rotate-handle {
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 24px;
+  background: #fff;
+  border: 2px solid #F97316;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  color: #F97316;
+  z-index: 10;
+}
+
+.rotate-handle:active {
+  cursor: grabbing;
+}
