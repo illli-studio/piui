@@ -145,6 +145,16 @@ export function Sidebar({
                 </svg>
                 <span className="tool-label">Circle</span>
               </button>
+              <button
+                className={`tool-btn ${currentTool === 'line' ? 'active' : ''}`}
+                onClick={() => onToolSelect('line')}
+                title="Line (L)"
+              >
+                <svg className="tool-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="5" y1="19" x2="19" y2="5" />
+                </svg>
+                <span className="tool-label">Line</span>
+              </button>
             </div>
             <div style={{ marginTop: 12 }}>
               <button

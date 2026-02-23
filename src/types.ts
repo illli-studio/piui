@@ -1,6 +1,6 @@
 // Type definitions for PiUI
 
-export type ElementType = 'text' | 'rectangle' | 'circle' | 'image';
+export type ElementType = 'text' | 'rectangle' | 'circle' | 'image' | 'line';
 
 export type GradientType = 'linear' | 'radial';
 

@@ -95,6 +95,24 @@ export function Canvas({
             strokeWidth: 0,
           });
         }
+      } else if (tool === 'line') {
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (rect) {
+          const x = (e.clientX - rect.left) / zoom;
+          const y = (e.clientY - rect.top) / zoom;
+          onAddElement({
+            type: 'line',
+            x,
+            y,
+            width: 200,
+            height: 2,
+            rotation: 0,
+            opacity: 1,
+            fill: '#ffffff',
+            stroke: '#ffffff',
+            strokeWidth: 2,
+          });
+        }
       }
     }
   }, [tool, zoom, onClearSelection, onAddElement]);
@@ -425,6 +443,19 @@ export function Canvas({
             boxShadow: element.shadowColor ? 
               `${element.shadowOffsetX || 0}px ${element.shadowOffsetY || 0}px ${element.shadowBlur || 0}px ${element.shadowColor}` 
               : undefined,
+          }}
+          onMouseDown={(e) => handleElementMouseDown(e, element)}
+        />
+      );
+    } else if (element.type === 'line') {
+      content = (
+        <div
+          className="canvas-element"
+          style={{
+            ...style,
+            background: element.stroke || '#ffffff',
+            height: element.strokeWidth || 2,
+            borderRadius: 0,
           }}
           onMouseDown={(e) => handleElementMouseDown(e, element)}
         />

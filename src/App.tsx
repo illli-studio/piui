@@ -37,6 +37,41 @@ function App() {
   const [isGeneratingAI, setIsGeneratingAI] = useState(false);
   const [showProjectManager, setShowProjectManager] = useState(false);
 
+  // Auto-save to localStorage every 30 seconds
+  useEffect(() => {
+    const autoSaveInterval = setInterval(() => {
+      if (state.elements.length > 0) {
+        const autoSaveData = {
+          width: state.canvasWidth,
+          height: state.canvasHeight,
+          elements: state.elements,
+          zoom: state.zoom,
+          savedAt: new Date().toISOString(),
+        };
+        localStorage.setItem('piui_autosave', JSON.stringify(autoSaveData));
+      }
+    }, 30000);
+
+    return () => clearInterval(autoSaveInterval);
+  }, [state]);
+
+  // Load autosave on mount
+  useEffect(() => {
+    const autoSaveData = localStorage.getItem('piui_autosave');
+    if (autoSaveData && state.elements.length === 0) {
+      try {
+        const data = JSON.parse(autoSaveData);
+        if (confirm('Found unsaved work. Would you like to restore it?')) {
+          setCanvasSize(data.width, data.height);
+          setZoom(data.zoom || 0.5);
+          data.elements.forEach((el: any) => addElement({ ...el, id: uuidv4() }));
+        }
+      } catch (e) {
+        console.error('Failed to load autosave:', e);
+      }
+    }
+  }, []);
+
   const handleSave = useCallback(() => {
     const name = prompt('Enter project name:', `Project ${new Date().toLocaleDateString()}`);
     if (name) {
@@ -129,10 +164,76 @@ function App() {
     }
   }, [state.canvasWidth, state.canvasHeight, addElements]);
 
-  const [exportFormat] = useState<'png' | 'jpg'>('png');
+  const [exportFormat] = useState<'png' | 'jpg' | 'svg'>('png');
 
-  const handleExport = useCallback((format?: 'png' | 'jpg') => {
+  const handleExport = useCallback((format?: 'png' | 'jpg' | 'svg') => {
     const exportFmt = format || exportFormat;
+    
+    if (exportFmt === 'svg') {
+      // SVG Export
+      let svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="${state.canvasWidth}" height="${state.canvasHeight}" viewBox="0 0 ${state.canvasWidth} ${state.canvasHeight}">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+`;
+      
+      state.elements.forEach((element) => {
+        if (element.visible === false) return;
+        
+        const transform = element.rotation ? `transform="rotate(${element.rotation} ${element.x + element.width/2} ${element.y + element.height/2})"` : '';
+        
+        if (element.type === 'text') {
+          svgContent += `  <text x="${element.x}" y="${element.y + (element.fontSize || 24)}" font-family="${element.fontFamily || 'DM Sans'}" font-size="${element.fontSize || 24}" font-weight="${element.fontWeight || 400}" fill="${element.color || '#000000'}" opacity="${element.opacity}" ${transform}>${element.text || ''}</text>
+`;
+        } else if (element.type === 'rectangle') {
+          let fill = element.fill || '#3B82F6';
+          if (element.gradient && element.gradient.colors && element.gradient.colors.length >= 2) {
+            svgContent += `  <defs>
+    <linearGradient id="grad_${element.id}" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:${element.gradient.colors[0]};stop-opacity:1" />
+      <stop offset="100%" style="stop-color:${element.gradient.colors[1]};stop-opacity:1" />
+    </linearGradient>
+  </defs>
+`;
+            fill = `url(#grad_${element.id})`;
+          }
+          svgContent += `  <rect x="${element.x}" y="${element.y}" width="${element.width}" height="${element.height}" fill="${fill}" stroke="${element.stroke || 'none'}" stroke-width="${element.strokeWidth || 0}" opacity="${element.opacity}" ${transform}/>
+`;
+        } else if (element.type === 'circle') {
+          let fill = element.fill || '#EF4444';
+          if (element.gradient && element.gradient.colors && element.gradient.colors.length >= 2) {
+            svgContent += `  <defs>
+    <radialGradient id="grad_${element.id}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:${element.gradient.colors[0]};stop-opacity:1" />
+      <stop offset="100%" style="stop-color:${element.gradient.colors[1]};stop-opacity:1" />
+    </radialGradient>
+  </defs>
+`;
+            fill = `url(#grad_${element.id})`;
+          }
+          svgContent += `  <ellipse cx="${element.x + element.width/2}" cy="${element.y + element.height/2}" rx="${element.width/2}" ry="${element.height/2}" fill="${fill}" stroke="${element.stroke || 'none'}" stroke-width="${element.strokeWidth || 0}" opacity="${element.opacity}" ${transform}/>
+`;
+        } else if (element.type === 'line') {
+          svgContent += `  <line x1="${element.x}" y1="${element.y}" x2="${element.x + element.width}" y2="${element.y + element.height}" stroke="${element.stroke || '#ffffff'}" stroke-width="${element.strokeWidth || 2}" opacity="${element.opacity}" ${transform}/>
+`;
+        } else if (element.type === 'image' && element.src) {
+          svgContent += `  <image href="${element.src}" x="${element.x}" y="${element.y}" width="${element.width}" height="${element.height}" opacity="${element.opacity}" ${transform}/>
+`;
+        }
+      });
+      
+      svgContent += '</svg>';
+      
+      const blob = new Blob([svgContent], { type: 'image/svg+xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'piui-cover.svg';
+      a.click();
+      URL.revokeObjectURL(url);
+      return;
+    }
+    
+    // PNG/JPG Export
     const canvas = document.createElement('canvas');
     canvas.width = state.canvasWidth;
     canvas.height = state.canvasHeight;

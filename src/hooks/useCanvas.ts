@@ -14,7 +14,7 @@ const initialState: ProjectState = {
 
 export function useCanvas() {
   const [state, setState] = useState<ProjectState>(initialState);
-  const [tool, setTool] = useState<'select' | 'text' | 'rect' | 'circle' | 'image'>('select');
+  const [tool, setTool] = useState<'select' | 'text' | 'rect' | 'circle' | 'line' | 'image'>('select');
 
   const pushHistory = useCallback((elements: CanvasElement[]) => {
     setState((prev: ProjectState) => {
