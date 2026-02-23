@@ -754,3 +754,64 @@ h1, h2, h3, h4, h5, h6 {
   height: 100%;
 }
 
+
+/* Export Dropdown */
+.export-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.export-dropdown .btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.export-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-elevated);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.2s ease;
+  z-index: 100;
+  min-width: 160px;
+}
+
+.export-dropdown:hover .export-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.export-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.export-menu button:hover {
+  background: var(--border);
+}
+
+.export-menu button:first-child {
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.export-menu button:last-child {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}

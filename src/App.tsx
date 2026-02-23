@@ -210,14 +210,18 @@ function App() {
     }, 1500);
   }, [state.canvasWidth, state.canvasHeight, addElements]);
 
-  const handleExport = useCallback(() => {
+  const [exportFormat] = useState<'png' | 'jpg'>('png');
+
+  const handleExport = useCallback((format?: 'png' | 'jpg') => {
+    const exportFmt = format || exportFormat;
     const canvas = document.createElement('canvas');
     canvas.width = state.canvasWidth;
     canvas.height = state.canvasHeight;
     const ctx = canvas.getContext('2d');
     
     if (ctx) {
-      ctx.fillStyle = '#ffffff';
+      // Fill with white background
+      ctx.fillStyle = exportFmt === 'jpg' ? '#ffffff' : 'transparent';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       
       state.elements.forEach((element) => {
@@ -270,11 +274,11 @@ function App() {
       });
       
       const link = document.createElement('a');
-      link.download = 'piui-cover.png';
-      link.href = canvas.toDataURL('image/png');
+      link.download = `piui-cover.${exportFmt}`;
+      link.href = canvas.toDataURL(`image/${exportFmt}`, exportFmt === 'jpg' ? 0.92 : 1.0);
       link.click();
     }
-  }, [state]);
+  }, [state, exportFormat]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
