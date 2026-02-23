@@ -815,3 +815,23 @@ h1, h2, h3, h4, h5, h6 {
 .export-menu button:last-child {
   border-radius: 0 0 var(--radius-md) var(--radius-md);
 }
+
+/* Resize Handles */
+.resize-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #fff;
+  border: 2px solid #F97316;
+  border-radius: 2px;
+  z-index: 10;
+}
+
+.resize-handle.nw { top: -5px; left: -5px; cursor: nw-resize; }
+.resize-handle.ne { top: -5px; right: -5px; cursor: ne-resize; }
+.resize-handle.sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+.resize-handle.se { bottom: -5px; right: -5px; cursor: se-resize; }
+.resize-handle.n { top: -5px; left: 50%; transform: translateX(-50%); cursor: n-resize; }
+.resize-handle.s { bottom: -5px; left: 50%; transform: translateX(-50%); cursor: s-resize; }
+.resize-handle.e { right: -5px; top: 50%; transform: translateY(-50%); cursor: e-resize; }
+.resize-handle.w { left: -5px; top: 50%; transform: translateY(-50%); cursor: w-resize; }

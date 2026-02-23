@@ -28,8 +28,11 @@ export function Canvas({
 }: CanvasProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
+  const [isResizing, setIsResizing] = useState(false);
+  const [resizeHandle, setResizeHandle] = useState<string | null>(null);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [resizeStart, setResizeStart] = useState({ width: 0, height: 0, x: 0, y: 0 });
   const [editingTextId, setEditingTextId] = useState<string | null>(null);
   const [editText, setEditText] = useState('');
 
@@ -121,6 +124,24 @@ export function Canvas({
     }
   }, [tool, zoom, onSelect]);
 
+  const handleResizeStart = useCallback((e: React.MouseEvent, handle: string) => {
+    e.stopPropagation();
+    const element = elements.find(el => selectedIds.includes(el.id));
+    if (element) {
+      setIsResizing(true);
+      setResizeHandle(handle);
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (rect) {
+        setResizeStart({
+          width: element.width,
+          height: element.height,
+          x: (e.clientX - rect.left) / zoom,
+          y: (e.clientY - rect.top) / zoom,
+        });
+      }
+    }
+  }, [selectedIds, elements, zoom]);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (isDragging && selectedIds.length > 0) {
@@ -146,9 +167,11 @@ export function Canvas({
 
     const handleMouseUp = () => {
       setIsDragging(false);
+      setIsResizing(false);
+      setResizeHandle(null);
     };
 
-    if (isDragging) {
+    if (isDragging || isResizing) {
       window.addEventListener('mousemove', handleMouseMove);
       window.addEventListener('mouseup', handleMouseUp);
     }
@@ -157,7 +180,53 @@ export function Canvas({
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, selectedIds, elements, dragStart, dragOffset, zoom, onUpdateElement]);
+  }, [isDragging, isResizing, selectedIds, elements, dragStart, dragOffset, zoom, onUpdateElement, resizeStart, resizeHandle]);
+
+  // Handle resizing move
+  useEffect(() => {
+    if (!isResizing || !resizeHandle || selectedIds.length === 0) return;
+
+    const handleResizeMove = (e: MouseEvent) => {
+      const rect = canvasRef.current?.getBoundingClientRect();
+      if (!rect) return;
+
+      const currentX = (e.clientX - rect.left) / zoom;
+      const currentY = (e.clientY - rect.top) / zoom;
+      const dx = currentX - resizeStart.x;
+      const dy = currentY - resizeStart.y;
+
+      const element = elements.find(el => selectedIds.includes(el.id));
+      if (!element) return;
+
+      let newWidth = resizeStart.width;
+      let newHeight = resizeStart.height;
+
+      if (resizeHandle.includes('e')) newWidth = Math.max(20, resizeStart.width + dx);
+      if (resizeHandle.includes('w')) newWidth = Math.max(20, resizeStart.width - dx);
+      if (resizeHandle.includes('s')) newHeight = Math.max(20, resizeStart.height + dy);
+      if (resizeHandle.includes('n')) newHeight = Math.max(20, resizeStart.height - dy);
+
+      let newX = element.x;
+      let newY = element.y;
+
+      if (resizeHandle.includes('w')) {
+        newX = element.x + (element.width - newWidth);
+      }
+      if (resizeHandle.includes('n')) {
+        newY = element.y + (element.height - newHeight);
+      }
+
+      onUpdateElement(element.id, {
+        width: newWidth,
+        height: newHeight,
+        x: newX,
+        y: newY,
+      });
+    };
+
+    window.addEventListener('mousemove', handleResizeMove);
+    return () => window.removeEventListener('mousemove', handleResizeMove);
+  }, [isResizing, resizeHandle, selectedIds, elements, resizeStart, zoom, onUpdateElement]);
 
   const handleTextDoubleClick = useCallback((e: React.MouseEvent, element: CanvasElement) => {
     e.stopPropagation();
@@ -294,17 +363,28 @@ export function Canvas({
       <div key={element.id} style={{ position: 'absolute', left: element.x, top: element.y }}>
         {content}
         {isSelected && (
-          <div
-            style={{
-              position: 'absolute',
-              top: -4,
-              left: -4,
-              right: -4,
-              bottom: -4,
-              border: '2px solid #F97316',
-              pointerEvents: 'none',
-            }}
-          />
+          <>
+            <div
+              style={{
+                position: 'absolute',
+                top: -4,
+                left: -4,
+                right: -4,
+                bottom: -4,
+                border: '2px solid #F97316',
+                pointerEvents: 'none',
+              }}
+            />
+            {/* Resize handles */}
+            <div className="resize-handle nw" onMouseDown={(e) => handleResizeStart(e, 'nw')} />
+            <div className="resize-handle ne" onMouseDown={(e) => handleResizeStart(e, 'ne')} />
+            <div className="resize-handle sw" onMouseDown={(e) => handleResizeStart(e, 'sw')} />
+            <div className="resize-handle se" onMouseDown={(e) => handleResizeStart(e, 'se')} />
+            <div className="resize-handle n" onMouseDown={(e) => handleResizeStart(e, 'n')} />
+            <div className="resize-handle s" onMouseDown={(e) => handleResizeStart(e, 's')} />
+            <div className="resize-handle e" onMouseDown={(e) => handleResizeStart(e, 'e')} />
+            <div className="resize-handle w" onMouseDown={(e) => handleResizeStart(e, 'w')} />
+          </>
         )}
       </div>
     );
