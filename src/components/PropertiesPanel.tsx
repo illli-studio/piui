@@ -119,13 +119,45 @@ export function PropertiesPanel({
             />
           </div>
           <div className="properties-row">
-            <label className="properties-label">Font Size</label>
+            <label className="properties-label">Font</label>
+            <select
+              className="properties-input"
+              value={element.fontFamily || 'DM Sans'}
+              onChange={e => onUpdate(element.id, { fontFamily: e.target.value })}
+            >
+              <option value="DM Sans">DM Sans</option>
+              <option value="Outfit">Outfit</option>
+              <option value="Inter">Inter</option>
+              <option value="Poppins">Poppins</option>
+              <option value="Roboto">Roboto</option>
+              <option value="Montserrat">Montserrat</option>
+              <option value="Playfair Display">Playfair Display</option>
+              <option value="Merriweather">Merriweather</option>
+              <option value="Fira Code">Fira Code</option>
+            </select>
+          </div>
+          <div className="properties-row">
+            <label className="properties-label">Size</label>
             <input
               type="number"
               className="properties-input"
               value={element.fontSize || 24}
               onChange={e => onUpdate(element.id, { fontSize: Number(e.target.value) })}
             />
+          </div>
+          <div className="properties-row">
+            <label className="properties-label">Weight</label>
+            <select
+              className="properties-input"
+              value={element.fontWeight || 400}
+              onChange={e => onUpdate(element.id, { fontWeight: Number(e.target.value) })}
+            >
+              <option value="300">Light</option>
+              <option value="400">Regular</option>
+              <option value="500">Medium</option>
+              <option value="600">Semi Bold</option>
+              <option value="700">Bold</option>
+            </select>
           </div>
           <div className="properties-row">
             <label className="properties-label">Color</label>
@@ -135,6 +167,38 @@ export function PropertiesPanel({
               value={element.color || '#000000'}
               onChange={e => onUpdate(element.id, { color: e.target.value })}
             />
+          </div>
+          <div className="properties-row">
+            <label className="properties-label">Align</label>
+            <div style={{ display: 'flex', gap: 4 }}>
+              <button
+                className={`btn btn-ghost ${element.textAlign === 'left' ? 'active' : ''}`}
+                style={{ padding: '4px 8px' }}
+                onClick={() => onUpdate(element.id, { textAlign: 'left' })}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="17" y1="10" x2="3" y2="10" /><line x1="21" y1="6" x2="3" y2="6" /><line x1="21" y1="14" x2="3" y2="14" /><line x1="17" y1="18" x2="3" y2="18" />
+                </svg>
+              </button>
+              <button
+                className={`btn btn-ghost ${element.textAlign === 'center' ? 'active' : ''}`}
+                style={{ padding: '4px 8px' }}
+                onClick={() => onUpdate(element.id, { textAlign: 'center' })}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="10" x2="6" y2="10" /><line x1="21" y1="6" x2="3" y2="6" /><line x1="21" y1="14" x2="3" y2="14" /><line x1="18" y1="18" x2="6" y2="18" />
+                </svg>
+              </button>
+              <button
+                className={`btn btn-ghost ${element.textAlign === 'right' ? 'active' : ''}`}
+                style={{ padding: '4px 8px' }}
+                onClick={() => onUpdate(element.id, { textAlign: 'right' })}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="21" y1="10" x2="7" y2="10" /><line x1="21" y1="6" x2="3" y2="6" /><line x1="21" y1="14" x2="3" y2="14" /><line x1="21" y1="18" x2="7" y2="18" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       )}
