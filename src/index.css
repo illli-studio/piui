@@ -41,6 +41,7 @@
 @import './styles/typography.css';
 @import './styles/borders.css';
 @import './styles/transform.css';
+@import './styles/shadow-misc.css';
 
 * {
   margin: 0;
