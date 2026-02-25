@@ -21,6 +21,7 @@
 @import './styles/tailwind-like.css';
 @import './styles/backgrounds.css';
 @import './styles/interactive.css';
+@import './styles/final.css';
 
 * {
   margin: 0;
