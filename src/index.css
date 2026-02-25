@@ -8,6 +8,7 @@
 @import './styles/advanced.css';
 @import './styles/animations.css';
 @import './styles/canvas.css';
+@import './styles/presets.css';
 
 * {
   margin: 0;
