@@ -10,6 +10,7 @@
 @import './styles/canvas.css';
 @import './styles/presets.css';
 @import './styles/optimizations.css';
+@import './styles/extras.css';
 
 * {
   margin: 0;
