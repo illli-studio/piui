@@ -22,6 +22,7 @@
 @import './styles/backgrounds.css';
 @import './styles/interactive.css';
 @import './styles/final.css';
+@import './styles/ai-panel.css';
 
 * {
   margin: 0;
