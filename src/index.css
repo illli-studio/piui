@@ -40,6 +40,7 @@
 @import './styles/position.css';
 @import './styles/typography.css';
 @import './styles/borders.css';
+@import './styles/transform.css';
 
 * {
   margin: 0;
