@@ -16,6 +16,7 @@
 @import './styles/more-ui.css';
 @import './styles/effects.css';
 @import './styles/utility-extra.css';
+@import './styles/layout.css';
 
 * {
   margin: 0;
