@@ -1,0 +1,160 @@
+/* PiUI Theme Variables - Updated */
+
+/* Custom Fonts Import */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+/* Font Variables */
+:root {
+  /* ... existing variables ... */
+  
+  /* Font Families */
+  --font-outfit: 'Outfit', sans-serif;
+  --font-dm: 'DM Sans', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+}
+
+/* Custom Selection */
+::selection {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* Scrollbar - WebKit */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-muted);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+/* Focus Visible */
+*:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent Text Selection on UI */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Touch Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .hover\:xxx:hover {
+    /* Disable hover effects on touch devices */
+  }
+  
+  .tool-btn,
+  .btn,
+  .sidebar-card {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: #52525B;
+    --color-text-secondary: #D4D4D8;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .header,
+  .sidebar,
+  .properties-panel,
+  .layers-panel,
+  .zoom-controls {
+    display: none !important;
+  }
+  
+  .canvas-container {
+    background: white !important;
+  }
+}
+
+/* Dark Mode (for future light theme support) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Already dark by default */
+  }
+}
+
+/* Landscape Orientation */
+@media (orientation: landscape) and (max-height: 500px) {
+  .sidebar {
+    width: 60px;
+  }
+  
+  .sidebar-section-title {
+    display: none;
+  }
+}
+
+/* Notch / Dynamic Island Support */
+@supports (padding: env(safe-area-inset-top)) {
+  .header {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .zoom-controls {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    right: calc(20px + env(safe-area-inset-right));
+  }
+}
+
+/* HDR Display Support */
+@media (dynamic-range: high) {
+  :root {
+    /* Enhance colors for HDR displays */
+  }
+}
+
+/* Container Queries */
+.sidebar-card {
+  container-type: inline-size;
+}
+
+@container (max-width: 200px) {
+  .sidebar-card-title {
+    font-size: 10px;
+  }
+}

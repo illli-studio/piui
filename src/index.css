@@ -9,6 +9,7 @@
 @import './styles/animations.css';
 @import './styles/canvas.css';
 @import './styles/presets.css';
+@import './styles/optimizations.css';
 
 * {
   margin: 0;
