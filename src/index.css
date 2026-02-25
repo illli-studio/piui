@@ -19,6 +19,7 @@
 @import './styles/utility-extra.css';
 @import './styles/layout.css';
 @import './styles/tailwind-like.css';
+@import './styles/backgrounds.css';
 
 * {
   margin: 0;
