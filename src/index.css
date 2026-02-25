@@ -33,6 +33,7 @@
 @import './styles/complete.css';
 @import './styles/components-lib.css';
 @import './styles/extra.css';
+@import './styles/keyframes.css';
 
 * {
   margin: 0;
