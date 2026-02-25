@@ -1,0 +1,132 @@
+/* PiUI Complete Theme Variables - Final Version */
+
+/* Colors */
+:root {
+  /* Background */
+  --bg-primary: #0D0D0F;
+  --bg-secondary: #18181B;
+  --bg-tertiary: #27272A;
+  --bg-elevated: #3F3F46;
+  
+  /* Text */
+  --text-primary: #FAFAFA;
+  --text-secondary: #A1A1AA;
+  --text-muted: #71717A;
+  
+  /* Border */
+  --border-default: #3F3F46;
+  --border-muted: #27272A;
+  
+  /* Primary */
+  --primary-50: #FFF7ED;
+  --primary-100: #FFEDD5;
+  --primary-200: #FED7AA;
+  --primary-300: #FDBA74;
+  --primary-400: #FB923C;
+  --primary-500: #F97316;
+  --primary-600: #EA580C;
+  --primary-700: #C2410C;
+  --primary-800: #9A3412;
+  --primary-900: #7C2D12;
+  
+  /* Accent */
+  --accent-50: #ECFEFF;
+  --accent-100: #CFFAFE;
+  --accent-200: #A5F3FC;
+  --accent-300: #67E8F9;
+  --accent-400: #22D3EE;
+  --accent-500: #06B6D4;
+  --accent-600: #0891B2;
+  --accent-700: #0E7490;
+  --accent-800: #155E75;
+  --accent-900: #164E63;
+  
+  /* Status */
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --error: #EF4444;
+  --info: #3B82F6;
+  
+  /* Layout */
+  --header-height: 60px;
+  --sidebar-width: 280px;
+  --properties-width: 300px;
+  
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  
+  /* Shadows */
+  --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.5);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease-out;
+  --transition-default: 200ms ease-out;
+  --transition-slow: 300ms ease-out;
+  
+  /* Fonts */
+  --font-outfit: 'Outfit', sans-serif;
+  --font-dm: 'DM Sans', sans-serif;
+  
+  /* Z-Index */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* Color Maps */
+$colors: (
+  'primary': var(--primary-500),
+  'accent': var(--accent-400),
+  'success': var(--success),
+  'warning': var(--warning),
+  'error': var(--error),
+  'info': var(--info)
+);
+
+/* Spacing Map */
+$spacing: (
+  'xs': var(--space-xs),
+  'sm': var(--space-sm),
+  'md': var(--space-md),
+  'lg': var(--space-lg),
+  'xl': var(--space-xl)
+);
+
+/* Border Radius Map */
+$radius: (
+  'sm': var(--radius-sm),
+  'md': var(--radius-md),
+  'lg': var(--radius-lg),
+  'xl': var(--radius-xl)
+);
+
+/* Shadow Map */
+$shadows: (
+  'subtle': var(--shadow-subtle),
+  'elevated': var(--shadow-elevated)
+);
+
+/* Transitions Map */
+$transitions: (
+  'fast': var(--transition-fast),
+  'default': var(--transition-default),
+  'slow': var(--transition-slow)
+);
+
+/* === PiUI END === */
