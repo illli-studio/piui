@@ -42,6 +42,7 @@
 @import './styles/borders.css';
 @import './styles/transform.css';
 @import './styles/shadow-misc.css';
+@import './styles/flex.css';
 
 * {
   margin: 0;
