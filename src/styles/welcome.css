@@ -1,0 +1,281 @@
+/* PiUI Welcome Screen & Onboarding */
+
+/* Welcome Screen */
+.welcome-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--space-xl, 32px);
+  text-align: center;
+  background: var(--color-bg, #0D0D0F);
+}
+
+.welcome-logo {
+  font-family: var(--font-outfit, 'Outfit'), sans-serif;
+  font-size: 72px;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--color-primary, #F97316), var(--color-accent, #22D3EE));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: var(--space-lg, 24px);
+}
+
+.welcome-title {
+  font-family: var(--font-outfit, 'Outfit'), sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary, #FAFAFA);
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.welcome-subtitle {
+  font-size: 16px;
+  color: var(--color-text-secondary, #A1A1AA);
+  margin-bottom: var(--space-xl, 32px);
+  max-width: 400px;
+}
+
+.welcome-actions {
+  display: flex;
+  gap: var(--space-md, 16px);
+  margin-bottom: var(--space-xl, 32px);
+}
+
+.welcome-btn {
+  padding: var(--space-md, 16px) var(--space-xl, 32px);
+  border-radius: var(--radius-md, 12px);
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.welcome-btn-primary {
+  background: var(--color-primary, #F97316);
+  color: white;
+}
+
+.welcome-btn-primary:hover {
+  background: var(--color-primary-hover, #FB923C);
+  transform: translateY(-2px);
+}
+
+.welcome-btn-secondary {
+  background: var(--color-surface-elevated, #27272A);
+  color: var(--color-text-primary, #FAFAFA);
+  border: 1px solid var(--color-border, #3F3F46);
+}
+
+.welcome-btn-secondary:hover {
+  background: var(--color-border, #3F3F46);
+  transform: translateY(-2px);
+}
+
+/* Features */
+.welcome-features {
+  display: flex;
+  gap: var(--space-xl, 32px);
+  margin-top: var(--space-xl, 32px);
+}
+
+.welcome-feature {
+  text-align: center;
+  max-width: 150px;
+}
+
+.welcome-feature-icon {
+  font-size: 32px;
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.welcome-feature-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary, #FAFAFA);
+  margin-bottom: var(--space-xs, 4px);
+}
+
+.welcome-feature-desc {
+  font-size: 12px;
+  color: var(--color-text-muted, #71717A);
+}
+
+/* Quick Start */
+.welcome-quickstart {
+  margin-top: var(--space-2xl, 48px);
+  padding: var(--space-lg, 24px);
+  background: var(--color-surface, #18181B);
+  border-radius: var(--radius-lg, 16px);
+  border: 1px solid var(--color-border, #3F3F46);
+}
+
+.welcome-quickstart-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: var(--space-md, 16px);
+}
+
+.welcome-shortcuts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm, 8px);
+}
+
+.welcome-shortcut {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm, 8px);
+  padding: var(--space-sm, 8px);
+  background: var(--color-surface-elevated, #27272A);
+  border-radius: var(--radius-sm, 8px);
+}
+
+.welcome-shortcut-key {
+  padding: 2px 6px;
+  background: var(--color-surface, #18181B);
+  border: 1px solid var(--color-border, #3F3F46);
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  color: var(--color-text-secondary, #A1A1AA);
+}
+
+.welcome-shortcut-desc {
+  font-size: 12px;
+  color: var(--color-text-muted, #71717A);
+}
+
+/* Onboarding Tips */
+.welcome-tips {
+  margin-top: var(--space-xl, 32px);
+  display: flex;
+  gap: var(--space-md, 16px);
+}
+
+.welcome-tip {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs, 4px);
+  font-size: 12px;
+  color: var(--color-text-muted, #71717A);
+}
+
+.welcome-tip-icon {
+  color: var(--color-success, #22C55E);
+}
+
+/* Keyboard Shortcuts Modal */
+.shortcuts-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.shortcuts-content {
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  background: var(--color-surface, #18181B);
+  border: 1px solid var(--color-border, #3F3F46);
+  border-radius: var(--radius-lg, 16px);
+  overflow: hidden;
+}
+
+.shortcuts-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md, 16px) var(--space-lg, 24px);
+  border-bottom: 1px solid var(--color-border, #3F3F46);
+}
+
+.shortcuts-header-title {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.shortcuts-close {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm, 8px);
+  color: var(--color-text-muted, #71717A);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.shortcuts-close:hover {
+  background: var(--color-surface-elevated, #27272A);
+  color: var(--color-text-primary, #FAFAFA);
+}
+
+.shortcuts-body {
+  padding: var(--space-lg, 24px);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.shortcuts-section {
+  margin-bottom: var(--space-lg, 24px);
+}
+
+.shortcuts-section:last-child {
+  margin-bottom: 0;
+}
+
+.shortcuts-section-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted, #71717A);
+  margin-bottom: var(--space-sm, 8px);
+}
+
+.shortcuts-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs, 4px);
+}
+
+.shortcut-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm, 8px);
+  border-radius: var(--radius-sm, 8px);
+}
+
+.shortcut-row:hover {
+  background: var(--color-surface-elevated, #27272A);
+}
+
+.shortcut-label {
+  font-size: 14px;
+  color: var(--color-text-primary, #FAFAFA);
+}
+
+.shortcut-keys {
+  display: flex;
+  gap: 4px;
+}
+
+.shortcut-key {
+  padding: 4px 8px;
+  background: var(--color-surface-elevated, #27272A);
+  border: 1px solid var(--color-border, #3F3F46);
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: monospace;
+  color: var(--color-text-secondary, #A1A1AA);
+}
