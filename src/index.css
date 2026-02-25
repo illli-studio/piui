@@ -43,6 +43,7 @@
 @import './styles/transform.css';
 @import './styles/shadow-misc.css';
 @import './styles/flex.css';
+@import './styles/grid.css';
 
 * {
   margin: 0;
