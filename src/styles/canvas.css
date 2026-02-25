@@ -1,0 +1,258 @@
+/* PiUI Specific Styles */
+
+/* Canvas Grid Background */
+.canvas-grid {
+  background-image: 
+    linear-gradient(rgba(63, 63, 70, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(63, 63, 70, 0.3) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.canvas-grid-sm {
+  background-size: 10px 10px;
+}
+
+.canvas-grid-lg {
+  background-size: 40px 40px;
+}
+
+/* Canvas Element Styles */
+.canvas-text {
+  padding: 4px 8px;
+  min-width: 50px;
+  cursor: text;
+}
+
+.canvas-text:hover {
+  outline: 1px dashed var(--color-primary);
+}
+
+.canvas-shape {
+  cursor: move;
+}
+
+.canvas-shape:hover {
+  filter: brightness(1.1);
+}
+
+/* Selection Box */
+.selection-box {
+  position: absolute;
+  border: 1px dashed var(--color-primary);
+  background: rgba(249, 115, 22, 0.1);
+  pointer-events: none;
+}
+
+/* Guides */
+.guide-line {
+  position: absolute;
+  background: var(--color-accent);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.guide-line-h {
+  height: 1px;
+  width: 100%;
+}
+
+.guide-line-v {
+  width: 1px;
+  height: 100%;
+}
+
+/* Element Controls */
+.element-controls {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-subtle);
+}
+
+.element-control-btn {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: var(--transition-default);
+}
+
+.element-control-btn:hover {
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+}
+
+/* Size Handles */
+.size-handle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border: 2px solid var(--color-primary);
+  border-radius: 2px;
+  z-index: 10;
+}
+
+.size-handle-nw { top: -5px; left: -5px; cursor: nw-resize; }
+.size-handle-n { top: -5px; left: 50%; margin-left: -5px; cursor: n-resize; }
+.size-handle-ne { top: -5px; right: -5px; cursor: ne-resize; }
+.size-handle-e { top: 50%; right: -5px; margin-top: -5px; cursor: e-resize; }
+.size-handle-se { bottom: -5px; right: -5px; cursor: se-resize; }
+.size-handle-s { bottom: -5px; left: 50%; margin-left: -5px; cursor: s-resize; }
+.size-handle-sw { bottom: -5px; left: -5px; cursor: sw-resize; }
+.size-handle-w { top: 50%; left: -5px; margin-top: -5px; cursor: w-resize; }
+
+/* Rotation Handle */
+.rotation-handle {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  margin-left: -12px;
+  width: 24px;
+  height: 24px;
+  background: white;
+  border: 2px solid var(--color-primary);
+  border-radius: 50%;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.rotation-handle:active {
+  cursor: grabbing;
+}
+
+.rotation-line {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  width: 1px;
+  height: 10px;
+  background: var(--color-primary);
+  transform: translateX(-50%);
+}
+
+/* Canvas Background Options */
+.bg-option {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: var(--transition-default);
+}
+
+.bg-option:hover {
+  transform: scale(1.1);
+}
+
+.bg-option.active {
+  border-color: var(--color-primary);
+}
+
+.bg-white { background: white; }
+.bg-black { background: black; }
+.bg-transparent { 
+  background: repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 10px 10px;
+}
+
+/* Alignment Guides */
+.alignment-guide {
+  position: absolute;
+  background: var(--color-accent);
+  z-index: 999;
+}
+
+.alignment-guide-h {
+  height: 1px;
+  width: 100%;
+}
+
+.alignment-guide-v {
+  width: 1px;
+  height: 100%;
+}
+
+/* Zoom Indicator */
+.zoom-indicator {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-surface-elevated);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  z-index: 100;
+}
+
+/* Cursor Types */
+.cursor-crosshair { cursor: crosshair; }
+.cursor-text { cursor: text; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+/* Disabled State */
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Dragging State */
+.dragging {
+  opacity: 0.8;
+}
+
+.drag-over {
+  outline: 2px dashed var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(13, 13, 15, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+/* Empty Canvas */
+.canvas-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-text-muted);
+}
+
+.canvas-empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-md);
+  opacity: 0.3;
+}
+
+.canvas-empty-text {
+  font-size: 16px;
+  margin-bottom: var(--space-sm);
+}
+
+.canvas-empty-hint {
+  font-size: 14px;
+  opacity: 0.7;
+}
