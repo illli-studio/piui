@@ -13,6 +13,7 @@
 @import './styles/extras.css';
 @import './styles/panels-extra.css';
 @import './styles/widgets.css';
+@import './styles/more-ui.css';
 
 * {
   margin: 0;
