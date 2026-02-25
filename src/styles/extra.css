@@ -1,0 +1,130 @@
+/* PiUI Final Styles - One More File */
+
+/* Additional utilities */
+
+/* Text Selection */
+::selection {
+  background: rgba(249, 115, 22, 0.3);
+  color: #FAFAFA;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3F3F46;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #52525B;
+}
+
+/* Firefox Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3F3F46 transparent;
+}
+
+/* Focus Visible */
+*:focus-visible {
+  outline: 2px solid #F97316;
+  outline-offset: 2px;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Prevent Text Selection on UI */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Touch Optimizations */
+@media (hover: none) and (pointer: coarse) {
+  .hover\:xxx:hover {
+    /* Disable hover effects on touch devices */
+  }
+  
+  .tool-btn,
+  .btn,
+  .sidebar-card {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: #52525B;
+    --color-text-secondary: #D4D4D8;
+  }
+}
+
+/* Print Styles */
+@media print {
+  .header,
+  .sidebar,
+  .properties-panel,
+  .layers-panel,
+  .zoom-controls {
+    display: none !important;
+  }
+  
+  .canvas-container {
+    background: white !important;
+  }
+}
+
+/* Landscape Orientation */
+@media (orientation: landscape) and (max-height: 500px) {
+  .sidebar {
+    width: 60px;
+  }
+  
+  .sidebar-section-title {
+    display: none;
+  }
+}
+
+/* Notch / Dynamic Island Support */
+@supports (padding: env(safe-area-inset-top)) {
+  .header {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .zoom-controls {
+    bottom: calc(20px + env(safe-area-inset-bottom));
+    right: calc(20px + env(safe-area-inset-right));
+  }
+}
+
+/* Container Queries */
+.sidebar-card {
+  container-type: inline-size;
+}
+
+@container (max-width: 200px) {
+  .sidebar-card-title {
+    font-size: 10px;
+  }
+}
+
+/* === PiUI END === */
