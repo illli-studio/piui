@@ -12,6 +12,7 @@
 @import './styles/optimizations.css';
 @import './styles/extras.css';
 @import './styles/panels-extra.css';
+@import './styles/widgets.css';
 
 * {
   margin: 0;
