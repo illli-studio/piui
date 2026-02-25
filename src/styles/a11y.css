@@ -1,0 +1,234 @@
+/* PiUI Accessibility & A11y */
+
+/* Focus Visible */
+:focus-visible {
+  outline: 2px solid var(--color-primary, #F97316);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 8px 16px;
+  background: var(--color-primary, #F97316);
+  color: white;
+  z-index: 10000;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* High Contrast */
+@media (prefers-contrast: high) {
+  :root {
+    --color-border: #52525B;
+    --color-text-secondary: #D4D4D8;
+  }
+  
+  .btn,
+  .card,
+  .modal {
+    border-width: 2px;
+  }
+}
+
+/* Color Blind Friendly */
+.color-blind-friendly {
+  --color-primary: #0066CC;
+  --color-success: #007A00;
+  --color-warning: #CC6600;
+  --color-error: #CC0000;
+}
+
+/* Touch Friendly */
+@media (pointer: coarse) {
+  .btn,
+  .tool-btn,
+  .menu-item {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .input,
+  .select {
+    font-size: 16px;
+  }
+}
+
+/* Keyboard Navigation */
+.keyboard-nav:focus {
+  outline: 2px solid var(--color-primary, #F97316);
+  outline-offset: 2px;
+}
+
+.keyboard-nav:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Focus Trap */
+.focus-trap {
+  position: relative;
+}
+
+.focus-trap *:focus {
+  outline: none;
+}
+
+.focus-trap *:focus-visible {
+  outline: 2px solid var(--color-primary, #F97316);
+  outline-offset: -2px;
+}
+
+/* Live Region */
+.sr-announcer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/*aria-hidden="true" on decorative elements*/
+[aria-hidden="true"] {
+  display: none;
+}
+
+/* Disabled state */
+[disabled],
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/*aria-expanded*/
+[aria-expanded="false"] {
+  display: none;
+}
+
+/*aria-selected*/
+[aria-selected="true"] {
+  background: var(--color-surface-elevated, #27272A);
+}
+
+/*aria-checked*/
+[aria-checked="true"] {
+  background: var(--color-primary, #F97316);
+}
+
+/* Invalid input */
+[aria-invalid="true"] {
+  border-color: var(--color-error, #EF4444);
+}
+
+/* Required field */
+.required::after {
+  content: '*';
+  color: var(--color-error, #EF4444);
+  margin-left: 4px;
+}
+
+/* Tooltip */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: var(--color-surface-elevated, #27272A);
+  border: 1px solid var(--color-border, #3F3F46);
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+/* Link focus */
+a:focus-visible {
+  outline: 2px solid var(--color-primary, #F97316);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Button focus */
+button:focus-visible {
+  outline: 2px solid var(--color-primary, #F97316);
+  outline-offset: 2px;
+}
+
+/* Input focus */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--color-primary, #F97316);
+  outline-offset: -1px;
+}
+
+/* Visible focus for keyboard users */
+.keyboard-user :focus {
+  outline: 2px solid var(--color-primary, #F97316);
+  outline-offset: 2px;
+}
+
+.mouse-user :focus {
+  outline: none;
+}
+
+/* High contrast mode focus */
+@media (prefers-contrast: high) {
+  :focus-visible {
+    outline: 3px solid currentColor;
+    outline-offset: 2px;
+  }
+}

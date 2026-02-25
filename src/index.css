@@ -26,6 +26,7 @@
 @import './styles/welcome.css';
 @import './styles/mobile.css';
 @import './styles/themes.css';
+@import './styles/a11y.css';
 
 * {
   margin: 0;
