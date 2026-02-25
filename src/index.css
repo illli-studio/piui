@@ -18,6 +18,7 @@
 @import './styles/effects.css';
 @import './styles/utility-extra.css';
 @import './styles/layout.css';
+@import './styles/tailwind-like.css';
 
 * {
   margin: 0;
