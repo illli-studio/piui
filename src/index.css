@@ -29,6 +29,7 @@
 @import './styles/a11y.css';
 @import './styles/print.css';
 @import './styles/debug.css';
+@import './styles/experimental.css';
 
 * {
   margin: 0;

@@ -1,0 +1,143 @@
+/* PiUI Future/Experimental Features */
+
+/* Backdrop Blur */
+.backdrop-blur-sm { backdrop-filter: blur(4px); }
+.backdrop-blur { backdrop-filter: blur(8px); }
+.backdrop-blur-md { backdrop-filter: blur(12px); }
+.backdrop-blur-lg { backdrop-filter: blur(16px); }
+.backdrop-blur-xl { backdrop-filter: blur(24px); }
+.backdrop-blur-2xl { backdrop-filter: blur(40px); }
+
+/* Backdrop Brightness */
+.backdrop-brightness-0 { backdrop-filter: brightness(0); }
+.backdrop-brightness-50 { backdrop-filter: brightness(0.5); }
+.backdrop-brightness-75 { backdrop-filter: brightness(0.75); }
+.backdrop-brightness-90 { backdrop-filter: brightness(0.9); }
+.backdrop-brightness-100 { backdrop-filter: brightness(1); }
+.backdrop-brightness-110 { backdrop-filter: brightness(1.1); }
+.backdrop-brightness-125 { backdrop-filter: brightness(1.25); }
+.backdrop-brightness-150 { backdrop-filter: brightness(1.5); }
+
+/* Backdrop Contrast */
+.backdrop-contrast-0 { backdrop-filter: contrast(0); }
+.backdrop-contrast-50 { backdrop-filter: contrast(0.5); }
+.backdrop-contrast-75 { backdrop-filter: contrast(0.75); }
+.backdrop-contrast-100 { backdrop-filter: contrast(1); }
+.backdrop-contrast-125 { backdrop-filter: contrast(1.25); }
+.backdrop-contrast-150 { backdrop-filter: contrast(1.5); }
+.backdrop-contrast-200 { backdrop-filter: contrast(2); }
+
+/* Backdrop Grayscale */
+.backdrop-grayscale { backdrop-filter: grayscale(100%); }
+.backdrop-grayscale-0 { backdrop-filter: grayscale(0); }
+.backdrop-grayscale-50 { backdrop-filter: grayscale(50%); }
+
+/* Backdrop Hue Rotate */
+.backdrop-hue-rotate-0 { backdrop-filter: hue-rotate(0deg); }
+.backdrop-hue-rotate-90 { backdrop-filter: hue-rotate(90deg); }
+.backdrop-hue-rotate-180 { backdrop-filter: hue-rotate(180deg); }
+.backdrop-hue-rotate-270 { backdrop-filter: hue-rotate(270deg); }
+
+/* Backdrop Invert */
+.backdrop-invert { backdrop-filter: invert(100%); }
+.backdrop-invert-0 { backdrop-filter: invert(0); }
+.backdrop-invert-50 { backdrop-filter: invert(50%); }
+
+/* Backdrop Opacity */
+.backdrop-opacity-0 { backdrop-filter: opacity(0); }
+.backdrop-opacity-50 { backdrop-filter: opacity(0.5); }
+.backdrop-opacity-100 { backdrop-filter: opacity(1); }
+
+/* Backdrop Saturate */
+.backdrop-saturate-0 { backdrop-filter: saturate(0); }
+.backdrop-saturate-50 { backdrop-filter: saturate(0.5); }
+.backdrop-saturate-100 { backdrop-filter: saturate(1); }
+.backdrop-saturate-150 { backdrop-filter: saturate(1.5); }
+.backdrop-saturate-200 { backdrop-filter: saturate(2); }
+
+/* Backdrop Sepia */
+.backdrop-sepia { backdrop-filter: sepia(100%); }
+.backdrop-sepia-0 { backdrop-filter: sepia(0); }
+.backdrop-sepia-50 { backdrop-filter: sepia(50%); }
+
+/* Mix Blend Mode */
+.blend-normal { mix-blend-mode: normal; }
+.blend-multiply { mix-blend-mode: multiply; }
+.blend-screen { mix-blend-mode: screen; }
+.blend-overlay { mix-blend-mode: overlay; }
+.blend-darken { mix-blend-mode: darken; }
+.blend-lighten { mix-blend-mode: lighten; }
+.blend-color-dodge { mix-blend-mode: color-dodge; }
+.blend-color-burn { mix-blend-mode: color-burn; }
+.blend-hard-light { mix-blend-mode: hard-light; }
+.blend-soft-light { mix-blend-mode: soft-light; }
+.blend-difference { mix-blend-mode: difference; }
+.blend-exclusion { mix-blend-mode: exclusion; }
+.blend-hue { mix-blend-mode: hue; }
+.blend-saturation { mix-blend-mode: saturation; }
+.blend-color { mix-blend-mode: color; }
+.blend-luminosity { mix-blend-mode: luminosity; }
+
+/* Isolate */
+.isolate { isolation: isolate; }
+.isolate-auto { isolation: auto; }
+
+/* Break Inside */
+.break-inside-auto { break-inside: auto; }
+.break-inside-avoid { break-inside: avoid; }
+.break-inside-avoid-page { break-inside: avoid-page; }
+.break-inside-avoid-column { break-inside: avoid-column; }
+
+/* Box Decoration Break */
+.box-decoration-clone { box-decoration-break: clone; }
+.box-decoration-slice { box-decoration-break: slice; }
+
+/* Caret Color */
+.caret-auto { caret-color: auto; }
+.caret-current { caret-color: currentColor; }
+.caret-transparent { caret-color: transparent; }
+.caret-black { caret-color: #000000; }
+.caret-white { caret-color: #ffffff; }
+.caret-primary { caret-color: #F97316; }
+
+/* Image Rendering */
+.render-auto { image-rendering: auto; }
+.render-pixelated { image-rendering: pixelated; }
+.render-crisp-edges { image-rendering: crisp-edges; }
+.render-high-quality { image-rendering: high-quality; }
+
+/* List Style */
+.list-none { list-style: none; }
+.list-disc { list-style: disc; }
+.list-decimal { list-style: decimal; }
+.list-square { list-style: square; }
+.list-circle { list-style: circle; }
+
+/* Object Position */
+.object-bottom { object-position: bottom; }
+.object-center { object-position: center; }
+.object-left { object-position: left; }
+.object-left-bottom { object-position: left bottom; }
+.object-left-top { object-position: left top; }
+.object-right { object-position: right; }
+.object-right-bottom { object-position: right bottom; }
+.object-right-top { object-position: right top; }
+.object-top { object-position: top; }
+
+/* Overflow Wrap */
+.break-normal { overflow-wrap: normal; word-break: normal; }
+.break-words { overflow-wrap: break-word; }
+.break-all { word-break: break-all; }
+
+/* Text Wrap */
+.text-wrap { text-wrap: wrap; }
+.text-nowrap { text-wrap: nowrap; }
+.text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
+
+/* White Space */
+.whitespace-normal { white-space: normal; }
+.whitespace-nowrap { white-space: nowrap; }
+.whitespace-pre { white-space: pre; }
+.whitespace-pre-line { white-space: pre-line; }
+.whitespace-pre-wrap { white-space: pre-wrap; }
