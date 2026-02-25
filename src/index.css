@@ -20,6 +20,7 @@
 @import './styles/layout.css';
 @import './styles/tailwind-like.css';
 @import './styles/backgrounds.css';
+@import './styles/interactive.css';
 
 * {
   margin: 0;
