@@ -11,6 +11,7 @@
 @import './styles/presets.css';
 @import './styles/optimizations.css';
 @import './styles/extras.css';
+@import './styles/panels-extra.css';
 
 * {
   margin: 0;
