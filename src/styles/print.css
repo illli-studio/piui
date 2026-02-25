@@ -1,0 +1,73 @@
+/* PiUI Print & Export Styles */
+
+/* Print */
+@media print {
+  /* Hide non-essential elements */
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Reset colors for print */
+  :root {
+    --color-bg: #ffffff;
+    --color-surface: #ffffff;
+    --color-text-primary: #000000;
+    --color-text-secondary: #333333;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+  
+  /* Ensure backgrounds print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Page setup */
+  @page {
+    margin: 1cm;
+    size: A4;
+  }
+  
+  /* Break points */
+  .page-break {
+    page-break-before: always;
+  }
+  
+  .no-break {
+    page-break-inside: avoid;
+  }
+}
+
+/* PDF Export */
+@media print and (resolution: 300dpi) {
+  body {
+    font-size: 11pt;
+  }
+}
+
+/* Screen only */
+@media screen {
+  .screen-only {
+    display: block;
+  }
+  
+  .print-only {
+    display: none;
+  }
+}
+
+/* Print only */
+@media print {
+  .screen-only {
+    display: none;
+  }
+  
+  .print-only {
+    display: block;
+  }
+}
