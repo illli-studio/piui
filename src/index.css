@@ -38,6 +38,7 @@
 @import './styles/spacing.css';
 @import './styles/sizing.css';
 @import './styles/position.css';
+@import './styles/typography.css';
 
 * {
   margin: 0;
