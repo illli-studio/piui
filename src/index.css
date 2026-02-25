@@ -34,6 +34,7 @@
 @import './styles/components-lib.css';
 @import './styles/extra.css';
 @import './styles/keyframes.css';
+@import './styles/colors.css';
 
 * {
   margin: 0;
